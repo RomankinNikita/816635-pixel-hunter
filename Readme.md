@@ -1,7 +1,7 @@
 # Личный проект «Пиксель хантер» [![Build status][travis-image]][travis-url]
 
 * Студент: [Никита Романкин](https://up.htmlacademy.ru/ecmascript/7/user/816635).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Балесный](https://up.htmlacademy.ru/ecmascript/7/user/221665).
 
 ---
 
