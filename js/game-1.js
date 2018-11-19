@@ -4,9 +4,9 @@ import {
 } from './util.js';
 import gameTwoScreen from './game-2.js';
 import greetingScreen from './greeting.js';
-import backButton from './back-button.js';
+import header from './header.js';
 
-const template = `${backButton}
+const template = `${header}
 <section class="game">
 <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
 <form class="game__content">

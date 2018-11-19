@@ -1,9 +1,9 @@
 import {changeScreen, render} from './util.js';
 import statsScreen from './stats.js';
 import greetingScreen from './greeting.js';
-import backButton from './back-button.js';
+import header from './header.js';
 
-const template = `${backButton}
+const template = `${header}
 <section class="game">
 <p class="game__task">Найдите рисунок среди изображений</p>
 <form class="game__content  game__content--triple">
