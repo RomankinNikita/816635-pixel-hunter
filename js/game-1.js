@@ -4,24 +4,9 @@ import {
 } from './util.js';
 import gameTwoScreen from './game-2.js';
 import greetingScreen from './greeting.js';
+import backButton from './back-button.js';
 
-const template = `<header class="header">
-<button class="back">
-  <span class="visually-hidden">Вернуться к началу</span>
-  <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
-    <use xlink:href="img/sprite.svg#arrow-left"></use>
-  </svg>
-  <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
-    <use xlink:href="img/sprite.svg#logo-small"></use>
-  </svg>
-</button>
-<div class="game__timer">NN</div>
-<div class="game__lives">
-  <img src="img/heart__empty.svg" class="game__heart" alt=" Missed Life" width="31" height="27">
-  <img src="img/heart__full.svg" class="game__heart" alt="Life" width="31" height="27">
-  <img src="img/heart__full.svg" class="game__heart" alt="Life" width="31" height="27">
-</div>
-</header>
+const template = `${backButton}
 <section class="game">
 <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
 <form class="game__content">
@@ -72,18 +57,9 @@ backBtn.addEventListener(`click`, () => {
 });
 
 const gameContentForm = element.querySelector(`.game__content`);
-let isChosenOne = false;
-let isChosenTwo = false;
 
-gameContentForm.addEventListener(`change`, (chngEvt) => {
-  const target = chngEvt.target;
-  if (target.name === `question1`) {
-    isChosenOne = true;
-  }
-  if (target.name === `question2`) {
-    isChosenTwo = true;
-  }
-  if (isChosenOne && isChosenTwo) {
+gameContentForm.addEventListener(`change`, () => {
+  if (gameContentForm.querySelectorAll(`input[type=radio]:checked`).length === 2) {
     changeScreen(gameTwoScreen);
   }
 });

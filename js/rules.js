@@ -47,7 +47,7 @@ const rulesInput = element.querySelector(`.rules__input`);
 const rulesForm = element.querySelector(`.rules__form`);
 
 rulesInput.addEventListener(`input`, () => {
-  rulesButton.disabled = rulesInput.value.length ? false : true;
+  rulesButton.disabled = !rulesInput.value.length;
 });
 
 rulesForm.addEventListener(`submit`, (sbmtEvt) => {
