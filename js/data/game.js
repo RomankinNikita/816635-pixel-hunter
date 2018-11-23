@@ -22,10 +22,10 @@ export const getInitialState = () => Object.freeze({
 });
 
 export const calculatePoints = (answers, lives) => {
-  if ((answers.map((elem) => elem === ANSWER_POINT.WRONG).length + lives) !== MAX_LIVES) {
+  if ((answers.filter((elem) => elem === ANSWER_POINT.WRONG).length + lives) !== MAX_LIVES) {
     throw new Error(`the number of lives must match the number of errors`);
   }
-  if (answers.length < ANSWER_NUMBER || lives < 0) {
+  if (answers.length < ANSWER_NUMBER && lives >= 0) {
     throw new Error(`game not ended`);
   }
   if (answers.length < 10) {
