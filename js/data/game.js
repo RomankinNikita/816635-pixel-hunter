@@ -23,19 +23,19 @@ const LEFT_LIVES_POINT = 50;
 // });
 
 export const calculatePoints = (answers, lives) => {
+  const wrongAnswersLength = answers.filter((elem) => elem === AnswerValue.WRONG).length;
   if (answers.length < ANSWER_NUMBER && lives === 0) {
     return -1;
   }
-  if ((answers.filter((elem) => elem === AnswerValue.WRONG).length) > MAX_LIVES && lives === 0) {
+  if ((wrongAnswersLength) > MAX_LIVES) {
     throw new Error(`correct answers more then lives allow`);
   }
-  if ((answers.filter((elem) => elem === AnswerValue.WRONG).length + lives) !== MAX_LIVES) {
+  if ((wrongAnswersLength + lives) !== MAX_LIVES) {
     throw new Error(`the number of lives must match the number of errors`);
   }
   if (answers.length < ANSWER_NUMBER && lives >= 0) {
     throw new Error(`game not ended`);
   }
-  let result = answers.reduce((points, element) => points + AnswerPoint[element], 0);
-  result += lives * LEFT_LIVES_POINT;
+  let result = answers.reduce((points, element) => points + AnswerPoint[element], lives * LEFT_LIVES_POINT);
   return result;
 };
