@@ -15,7 +15,6 @@ const threeMistakesAnswers = [...testMinAnswers];
 const twoMistakesAnswers = [...new Array(8).fill(AnswerValue.CORRECT), ...new Array(2).fill(AnswerValue.WRONG)];
 const oneMistakesAnswers = [...new Array(9).fill(AnswerValue.CORRECT), ...new Array(1).fill(AnswerValue.WRONG)];
 const noMistakesAnswers = [...testTenAnswers];
-const fourMistakesAnswers = [...new Array(6).fill(AnswerValue.CORRECT), ...new Array(4).fill(AnswerValue.WRONG)];
 const nineAnswersTwoMistakes = [...new Array(7).fill(AnswerValue.CORRECT), ...new Array(2).fill(AnswerValue.WRONG)];
 
 describe(`Game`, () => {
@@ -28,9 +27,6 @@ describe(`Game`, () => {
     });
     it(`game not ended`, () => {
       assert.throws(() => calculatePoints(nineAnswersTwoMistakes, 1), /game not ended/);
-    });
-    it(`correct answers more then lives allow`, () => {
-      assert.throws(() => calculatePoints(fourMistakesAnswers, 0), /correct answers more then lives allow/);
     });
   });
   describe(`should calculate points`, () => {

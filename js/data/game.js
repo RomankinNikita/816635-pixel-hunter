@@ -1,5 +1,6 @@
 const MAX_LIVES = 3;
 const ANSWER_NUMBER = 10;
+const LEFT_LIVES_POINT = 50;
 // const TIME_FOR_QUESTION = 30;
 export const AnswerValue = {
   CORRECT: `correct`,
@@ -13,7 +14,6 @@ const AnswerPoint = {
   [AnswerValue.FAST]: 150,
   [AnswerValue.SLOW]: 50
 };
-const LEFT_LIVES_POINT = 50;
 
 // export const getInitialState = () => Object.freeze({
 //   answers: [],
@@ -23,19 +23,16 @@ const LEFT_LIVES_POINT = 50;
 // });
 
 export const calculatePoints = (answers, lives) => {
-  const wrongAnswersLength = answers.filter((elem) => elem === AnswerValue.WRONG).length;
-  if (answers.length < ANSWER_NUMBER && lives === 0) {
-    return -1;
-  }
-  if ((wrongAnswersLength) > MAX_LIVES) {
-    throw new Error(`correct answers more then lives allow`);
-  }
-  if ((wrongAnswersLength + lives) !== MAX_LIVES) {
+  const wrongAnswers = answers.filter((elem) => elem === AnswerValue.WRONG).length;
+  const notAnsweredQuestions = ANSWER_NUMBER - answers.length;
+  if (wrongAnswers + lives !== MAX_LIVES) {
     throw new Error(`the number of lives must match the number of errors`);
   }
-  if (answers.length < ANSWER_NUMBER && lives >= 0) {
+  if (lives && notAnsweredQuestions) {
     throw new Error(`game not ended`);
   }
-  let result = answers.reduce((points, element) => points + AnswerPoint[element], lives * LEFT_LIVES_POINT);
-  return result;
+  if (answers.length < ANSWER_NUMBER) {
+    return -1;
+  }
+  return answers.length === ANSWER_NUMBER ? answers.reduce((points, element) => points + AnswerPoint[element], lives * LEFT_LIVES_POINT) : -1;
 };
