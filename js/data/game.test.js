@@ -16,6 +16,7 @@ const twoMistakesAnswers = [...new Array(8).fill(AnswerValue.CORRECT), ...new Ar
 const oneMistakesAnswers = [...new Array(9).fill(AnswerValue.CORRECT), ...new Array(1).fill(AnswerValue.WRONG)];
 const noMistakesAnswers = [...testTenAnswers];
 const nineAnswersTwoMistakes = [...new Array(7).fill(AnswerValue.CORRECT), ...new Array(2).fill(AnswerValue.WRONG)];
+const answersMoreQuestions = new Array(11).fill(AnswerValue.CORRECT);
 
 describe(`Game`, () => {
   describe(`should check if data correct`, () => {
@@ -27,6 +28,9 @@ describe(`Game`, () => {
     });
     it(`game not ended`, () => {
       assert.throws(() => calculatePoints(nineAnswersTwoMistakes, 1), /game not ended/);
+    });
+    it(`answers more than questions`, () => {
+      assert.throws(() => calculatePoints(answersMoreQuestions, 3), /answers more than questions/);
     });
   });
   describe(`should calculate points`, () => {

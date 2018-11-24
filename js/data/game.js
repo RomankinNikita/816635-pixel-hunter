@@ -31,8 +31,8 @@ export const calculatePoints = (answers, lives) => {
   if (lives && notAnsweredQuestions) {
     throw new Error(`game not ended`);
   }
-  if (answers.length < ANSWER_NUMBER) {
-    return -1;
+  if (notAnsweredQuestions < 0) {
+    throw new Error(`answers more than questions`);
   }
   return answers.length === ANSWER_NUMBER ? answers.reduce((points, element) => points + AnswerPoint[element], lives * LEFT_LIVES_POINT) : -1;
 };
