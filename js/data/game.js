@@ -1,25 +1,26 @@
 const MAX_LIVES = 3;
 const ANSWER_NUMBER = 10;
-const TIME_FOR_QUESTION = 30;
-const ANSWER_POINT = 100;
-const WRONG_POINT = 0;
-const QUICK_ANSWER_POINT = 50;
-const LATE_ANSWER_POINT = -50;
-const LEFT_LIVES_POINT = 50;
-
+// const TIME_FOR_QUESTION = 30;
 export const AnswerValue = {
   CORRECT: `correct`,
   WRONG: `wrong`,
   FAST: `fast`,
   SLOW: `slow`
 };
+const AnswerPoint = {
+  [AnswerValue.CORRECT]: 100,
+  [AnswerValue.WRONG]: 0,
+  [AnswerValue.FAST]: 150,
+  [AnswerValue.SLOW]: 50
+};
+const LEFT_LIVES_POINT = 50;
 
-export const getInitialState = () => Object.freeze({
-  stats: [],
-  lives: MAX_LIVES,
-  question: 0,
-  time: TIME_FOR_QUESTION
-});
+// export const getInitialState = () => Object.freeze({
+//   answers: [],
+//   lives: MAX_LIVES,
+//   question: 0,
+//   time: TIME_FOR_QUESTION
+// });
 
 export const calculatePoints = (answers, lives) => {
   if (answers.length < ANSWER_NUMBER && lives === 0) {
@@ -34,22 +35,7 @@ export const calculatePoints = (answers, lives) => {
   if (answers.length < ANSWER_NUMBER && lives >= 0) {
     throw new Error(`game not ended`);
   }
-  let points = 0;
-  for (let i = 0; i < answers.length; i++) {
-    const element = answers[i];
-    if (element === AnswerValue.WRONG) {
-      points += WRONG_POINT;
-    }
-    if (element === AnswerValue.CORRECT) {
-      points += ANSWER_POINT;
-    }
-    if (element === AnswerValue.FAST) {
-      points += ANSWER_POINT + QUICK_ANSWER_POINT;
-    }
-    if (element === AnswerValue.SLOW) {
-      points += ANSWER_POINT + LATE_ANSWER_POINT;
-    }
-  }
-  points += lives * LEFT_LIVES_POINT;
-  return points;
+  let result = answers.reduce((points, element) => points + AnswerPoint[element], 0);
+  result += lives * LEFT_LIVES_POINT;
+  return result;
 };
