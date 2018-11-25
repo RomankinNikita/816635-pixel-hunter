@@ -6,7 +6,9 @@ import {
   calculatePoints,
   AnswerValue,
   changeLevel,
-  getInitialState
+  getInitialState,
+  setLives,
+  setTime
 } from './game.js';
 
 const testNineAnswers = [...new Array(6).fill(AnswerValue.CORRECT), ...new Array(3).fill(AnswerValue.WRONG)];
@@ -76,5 +78,59 @@ describe(`Change level`, () => {
     assert.equal(changeLevel(getInitialState(), 0).question, 0);
     assert.equal(changeLevel(getInitialState(), 5).question, 5);
     assert.equal(changeLevel(getInitialState(), 9).question, 9);
+  });
+});
+
+describe(`Set lives`, () => {
+  it(`Parameters shouldn't be incorrect parameter type`, () => {
+    assert.throws(() => setLives({}, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setLives([], 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setLives(0, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setLives(null, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setLives(NaN, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setLives(`string`, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setLives(undefined, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setLives(getInitialState(), {}), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setLives(getInitialState(), []), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setLives(getInitialState(), null), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setLives(getInitialState(), `string`), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setLives(getInitialState(), undefined), /Parameters shouldn't be undefined or incorrect parameter type/);
+  });
+  it(`should throw range error`, () => {
+    assert.throws(() => setLives(getInitialState(), -1), /Lives must be between 0...3/);
+    assert.throws(() => setLives(getInitialState(), 4), /Lives must be between 0...3/);
+    assert.throws(() => setLives(getInitialState(), NaN), /Lives must be between 0...3/);
+  });
+  it(`should set lives`, () => {
+    assert.equal(setLives(getInitialState(), 0).lives, 0);
+    assert.equal(setLives(getInitialState(), 1).lives, 1);
+    assert.equal(setLives(getInitialState(), 3).lives, 3);
+  });
+});
+
+describe(`Set time`, () => {
+  it(`Parameters shouldn't be incorrect parameter type`, () => {
+    assert.throws(() => setTime({}, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setTime([], 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setTime(0, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setTime(null, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setTime(NaN, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setTime(`string`, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setTime(undefined, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setTime(getInitialState(), {}), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setTime(getInitialState(), []), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setTime(getInitialState(), null), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setTime(getInitialState(), `string`), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => setTime(getInitialState(), undefined), /Parameters shouldn't be undefined or incorrect parameter type/);
+  });
+  it(`should throw range error`, () => {
+    assert.throws(() => setTime(getInitialState(), -1), /Time must be between 0...30/);
+    assert.throws(() => setTime(getInitialState(), 31), /Time must be between 0...30/);
+    assert.throws(() => setTime(getInitialState(), NaN), /Time must be between 0...30/);
+  });
+  it(`should set time`, () => {
+    assert.equal(setTime(getInitialState(), 0).time, 0);
+    assert.equal(setTime(getInitialState(), 15).time, 15);
+    assert.equal(setTime(getInitialState(), 30).time, 30);
   });
 });

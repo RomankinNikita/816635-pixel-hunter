@@ -51,3 +51,29 @@ export const changeLevel = (game, question) => {
     question
   });
 };
+
+// Управление жизнями
+export const setLives = (game, lives) => {
+  if (game === null || typeof game !== `object` || typeof lives !== `number` || typeof game.lives !== `number`) {
+    throw new Error(`Parameters shouldn't be undefined or incorrect parameter type.`);
+  }
+  if (isNaN(lives) || lives < 0 || lives > MAX_LIVES) {
+    throw new RangeError(`Lives must be between 0...${MAX_LIVES}.`);
+  }
+  return Object.assign({}, game, {
+    lives
+  });
+};
+
+// Управление временем
+export const setTime = (game, time) => {
+  if (game === null || typeof game !== `object` || typeof time !== `number` || typeof game.time !== `number`) {
+    throw new Error(`Parameters shouldn't be undefined or incorrect parameter type.`);
+  }
+  if (isNaN(time) || time < 0 || time > TIME_FOR_QUESTION) {
+    throw new RangeError(`Time must be between 0...${TIME_FOR_QUESTION}.`);
+  }
+  return Object.assign({}, game, {
+    time
+  });
+};
