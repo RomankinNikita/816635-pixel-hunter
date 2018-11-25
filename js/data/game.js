@@ -40,14 +40,14 @@ export const calculatePoints = (answers, lives) => {
 };
 
 // Переключение уровней
-// export const changeLevel = (game, question) => {
-//   if (typeof game !== `object` || typeof level !== `number` || typeof game.level !== `number`) {
-//     throw new Error(`Parameters shouldn't be undefined or incorrect parameter type.`);
-//   }
-//   if (isNaN(question) || question < 0 || question > NUMBER_OF_GAME_LEVELS - 1) {
-//     throw new RangeError(`Level must be between 0...${NUMBER_OF_GAME_LEVELS - 1}.`);
-//   }
-//   return Object.assign({}, game, {
-//     question
-//   });
-// };
+export const changeLevel = (game, question) => {
+  if (game === null || typeof game !== `object` || typeof question !== `number` || typeof game.question !== `number`) {
+    throw new Error(`Parameters shouldn't be undefined or incorrect parameter type.`);
+  }
+  if (isNaN(question) || question < 0 || question > NUMBER_OF_GAME_LEVELS - 1) {
+    throw new RangeError(`Level must be between 0...${NUMBER_OF_GAME_LEVELS - 1}.`);
+  }
+  return Object.assign({}, game, {
+    question
+  });
+};

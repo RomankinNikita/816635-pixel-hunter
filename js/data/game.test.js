@@ -77,7 +77,4 @@ describe(`Change level`, () => {
     assert.equal(changeLevel(getInitialState(), 5).question, 5);
     assert.equal(changeLevel(getInitialState(), 9).question, 9);
   });
-  it(`check start value`, () => {
-    assert.equal(getInitialState().question, 3);
-  });
 });
