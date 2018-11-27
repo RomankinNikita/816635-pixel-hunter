@@ -1,4 +1,4 @@
-import {changeScreen, render} from './util.js';
+import {changeScreen, renderTemplate} from './util.js';
 import rulesScreen from './rules.js';
 
 const template = `<section class="greeting central--blur">
@@ -22,7 +22,7 @@ const template = `<section class="greeting central--blur">
 </button>
 </section>`;
 
-const element = render(template);
+const element = renderTemplate(template);
 
 const arrowButton = element.querySelector(`.greeting__continue`);
 

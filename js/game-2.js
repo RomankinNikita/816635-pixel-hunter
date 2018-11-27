@@ -1,4 +1,4 @@
-import {changeScreen, render} from './util.js';
+import {changeScreen, renderTemplate} from './util.js';
 import gameThreeScreen from './game-3.js';
 import greetingScreen from './greeting.js';
 import header from './header.js';
@@ -33,7 +33,7 @@ const template = `${header}
 </ul>
 </section>`;
 
-const element = render(template);
+const element = renderTemplate(template);
 
 // back to greetingScreen:
 const backBtn = element.querySelector(`button.back`);

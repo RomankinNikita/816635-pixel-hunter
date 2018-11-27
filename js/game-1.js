@@ -1,12 +1,14 @@
 import {
   changeScreen,
-  render
+  renderTemplate
 } from './util.js';
 import gameTwoScreen from './game-2.js';
 import greetingScreen from './greeting.js';
 import header from './header.js';
+import stats from './stats.js';
+import {initialState} from './data/data.js';
 
-const template = `${header}
+const template = `${header(initialState)}
 <section class="game">
 <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
 <form class="game__content">
@@ -33,21 +35,10 @@ const template = `${header}
     </label>
   </div>
 </form>
-<ul class="stats">
-  <li class="stats__result stats__result--wrong"></li>
-  <li class="stats__result stats__result--slow"></li>
-  <li class="stats__result stats__result--fast"></li>
-  <li class="stats__result stats__result--correct"></li>
-  <li class="stats__result stats__result--unknown"></li>
-  <li class="stats__result stats__result--unknown"></li>
-  <li class="stats__result stats__result--unknown"></li>
-  <li class="stats__result stats__result--unknown"></li>
-  <li class="stats__result stats__result--unknown"></li>
-  <li class="stats__result stats__result--unknown"></li>
-</ul>
+${stats(initialState)}
 </section>`;
 
-const element = render(template);
+const element = renderTemplate(template);
 
 // back to greetingScreen:
 const backBtn = element.querySelector(`button.back`);

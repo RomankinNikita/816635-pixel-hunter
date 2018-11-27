@@ -1,9 +1,9 @@
 const mainElement = document.querySelector(`#main`);
 
-export const render = (template) => {
-  const wrapper = document.createElement(`div`);
-  wrapper.innerHTML = template.trim();
-  return wrapper;
+export const renderTemplate = (template) => {
+  const container = document.createElement(`div`);
+  container.innerHTML = template.trim();
+  return container;
 };
 
 export const changeScreen = (element) => {

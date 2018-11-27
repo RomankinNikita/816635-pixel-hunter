@@ -1,6 +1,6 @@
 import {
   changeScreen,
-  render
+  renderTemplate
 } from './util.js';
 import greetingScreen from './greeting.js';
 
@@ -116,7 +116,7 @@ const template = `<header class="header">
 </table>
 </section>`;
 
-const element = render(template);
+const element = renderTemplate(template);
 
 // back to greetingScreen:
 const backBtn = element.querySelector(`button.back`);
