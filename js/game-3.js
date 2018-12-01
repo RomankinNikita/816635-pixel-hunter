@@ -42,7 +42,7 @@ const getThirdGameType = (state) => {
   gameOptions.forEach((item) => {
     item.addEventListener(`click`, () => {
       // // const nextState = getNextState(state, answer);
-      const nextState = Object.assign({}, state, {question: `3`});
+      const nextState = Object.assign({}, state, {question: `1`});
       getNextScreen(nextState);
     });
   });
