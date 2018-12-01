@@ -1,3 +1,5 @@
+import {testGame} from './data/data.js';
+
 const mainElement = document.querySelector(`#main`);
 
 export const renderTemplate = (template) => {
@@ -9,4 +11,8 @@ export const renderTemplate = (template) => {
 export const changeScreen = (element) => {
   mainElement.innerHTML = ``;
   mainElement.appendChild(element);
+};
+
+export const getNextScreen = (state) => {
+  changeScreen(testGame[state.question][`type`](state));
 };

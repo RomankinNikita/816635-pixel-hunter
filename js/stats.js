@@ -3,8 +3,10 @@ import {
   renderTemplate
 } from './util.js';
 import greetingScreen from './greeting.js';
+import answerIndicator from './answer-indicator';
 
-const template = `<header class="header">
+const getStatsScreen = (state) => {
+  const template = `<header class="header">
 <button class="back">
   <span class="visually-hidden">Вернуться к началу</span>
   <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
@@ -21,18 +23,7 @@ const template = `<header class="header">
   <tr>
     <td class="result__number">1.</td>
     <td colspan="2">
-      <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--unknown"></li>
-      </ul>
+    ${answerIndicator(state)}
     </td>
     <td class="result__points">× 100</td>
     <td class="result__total">900</td>
@@ -62,67 +53,17 @@ const template = `<header class="header">
     <td colspan="5" class="result__total  result__total--final">950</td>
   </tr>
 </table>
-<table class="result__table">
-  <tr>
-    <td class="result__number">2.</td>
-    <td>
-      <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--wrong"></li>
-      </ul>
-    </td>
-    <td class="result__total"></td>
-    <td class="result__total  result__total--final">fail</td>
-  </tr>
-</table>
-<table class="result__table">
-  <tr>
-    <td class="result__number">3.</td>
-    <td colspan="2">
-      <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--unknown"></li>
-      </ul>
-    </td>
-    <td class="result__points">× 100</td>
-    <td class="result__total">900</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td class="result__extra">Бонус за жизни:</td>
-    <td class="result__extra">2 <span class="stats__result stats__result--alive"></span></td>
-    <td class="result__points">× 50</td>
-    <td class="result__total">100</td>
-  </tr>
-  <tr>
-    <td colspan="5" class="result__total  result__total--final">950</td>
-  </tr>
-</table>
 </section>`;
 
-const element = renderTemplate(template);
+  const element = renderTemplate(template);
 
-// back to greetingScreen:
-const backBtn = element.querySelector(`button.back`);
+  // back to greetingScreen:
+  const backBtn = element.querySelector(`button.back`);
 
-backBtn.addEventListener(`click`, () => {
-  changeScreen(greetingScreen);
-});
+  backBtn.addEventListener(`click`, () => {
+    changeScreen(greetingScreen);
+  });
+  return element;
+};
 
-export default element;
+export default getStatsScreen;

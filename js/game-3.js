@@ -1,51 +1,52 @@
-import {changeScreen, renderTemplate} from './util.js';
-import statsScreen from './stats.js';
+import {
+  changeScreen,
+  renderTemplate,
+  getNextScreen
+} from './util.js';
 import greetingScreen from './greeting.js';
 import header from './header.js';
+import answerIndicator from './answer-indicator';
+import {
+  testGame
+} from './data/data.js';
 
-const template = `${header}
-<section class="game">
-<p class="game__task">Найдите рисунок среди изображений</p>
-<form class="game__content  game__content--triple">
-  <div class="game__option">
-    <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-  </div>
-  <div class="game__option  game__option--selected">
-    <img src="http://placehold.it/304x455" alt="Option 2" width="304" height="455">
-  </div>
-  <div class="game__option">
-    <img src="http://placehold.it/304x455" alt="Option 3" width="304" height="455">
-  </div>
-</form>
-<ul class="stats">
-  <li class="stats__result stats__result--wrong"></li>
-  <li class="stats__result stats__result--slow"></li>
-  <li class="stats__result stats__result--fast"></li>
-  <li class="stats__result stats__result--correct"></li>
-  <li class="stats__result stats__result--wrong"></li>
-  <li class="stats__result stats__result--unknown"></li>
-  <li class="stats__result stats__result--slow"></li>
-  <li class="stats__result stats__result--unknown"></li>
-  <li class="stats__result stats__result--fast"></li>
-  <li class="stats__result stats__result--unknown"></li>
-</ul>
-</section>`;
+const getThirdGameType = (state) => {
+  const template = `${header(state)}
+  <section class="game">
+  <p class="game__task">Найдите рисунок среди изображений</p>
+  <form class="game__content  game__content--triple">
+    <div class="game__option">
+      <img src="${testGame[state.question].answers[0].content}" alt="Option 1" width="304" height="455">
+    </div>
+    <div class="game__option  game__option--selected">
+      <img src="${testGame[state.question].answers[1].content}" alt="Option 2" width="304" height="455">
+    </div>
+    <div class="game__option">
+      <img src="${testGame[state.question].answers[2].content}" alt="Option 3" width="304" height="455">
+    </div>
+  </form>
+  ${answerIndicator(state)}
+  </section>`;
 
-const element = renderTemplate(template);
+  const element = renderTemplate(template);
 
-// back to greetingScreen:
-const backBtn = element.querySelector(`button.back`);
+  // back to greetingScreen:
+  const backBtn = element.querySelector(`button.back`);
 
-backBtn.addEventListener(`click`, () => {
-  changeScreen(greetingScreen);
-});
-
-const gameOptions = element.querySelectorAll(`.game__option`);
-
-gameOptions.forEach((item) => {
-  item.addEventListener(`click`, () => {
-    changeScreen(statsScreen);
+  backBtn.addEventListener(`click`, () => {
+    changeScreen(greetingScreen);
   });
-});
 
-export default element;
+  const gameOptions = element.querySelectorAll(`.game__option`);
+
+  gameOptions.forEach((item) => {
+    item.addEventListener(`click`, () => {
+      // // const nextState = getNextState(state, answer);
+      const nextState = Object.assign({}, state, {question: `3`});
+      getNextScreen(nextState);
+    });
+  });
+  return element;
+};
+
+export default getThirdGameType;
