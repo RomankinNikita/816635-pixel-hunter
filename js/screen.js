@@ -25,14 +25,11 @@ const getStatsBlock = (state) => {
 };
 
 export const getNextScreen = (state) => {
-  console.log(state);
-
   if (state.question <= 10 && state.lives >= 0) {
     changeScreen(getGameModule(state));
   } else {
     changeScreen(getStatsBlock(state));
   }
-  // console.log(state);
 };
 
 export const checkThirdGameTypeAnswer = (state) => {

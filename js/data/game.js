@@ -14,7 +14,7 @@ export const calculatePoints = (answers, lives) => {
   if (notAnsweredQuestions < 0) {
     throw new Error(`answers more than questions`);
   }
-  if (lives && notAnsweredQuestions) {
+  if (lives + 1 && notAnsweredQuestions) {
     throw new Error(`game not ended`);
   }
   return answers.length === Settings.NUMBER_OF_ANSWERS ? answers.reduce((points, element) => points + AnswerPoint[element], lives * Settings.LEFT_LIVES_POINT) : -1;
