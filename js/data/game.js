@@ -14,7 +14,7 @@ export const calculatePoints = (answers, lives) => {
   if (notAnsweredQuestions < 0) {
     throw new Error(`answers more than questions`);
   }
-  if (lives + 1 && notAnsweredQuestions) {
+  if (lives > -1 && notAnsweredQuestions) {
     throw new Error(`game not ended`);
   }
   return answers.length === Settings.NUMBER_OF_ANSWERS ? answers.reduce((points, element) => points + AnswerPoint[element], lives * Settings.LEFT_LIVES_POINT) : -1;
@@ -25,8 +25,8 @@ export const changeLevel = (game, question) => {
   if (game === null || typeof game !== `object` || typeof question !== `number`) {
     throw new Error(`Parameters shouldn't be undefined or incorrect parameter type.`);
   }
-  if (isNaN(question) || question < 1 || question > Settings.NUMBER_OF_GAME_LEVELS + 1) {
-    throw new RangeError(`Level must be between 1...${Settings.NUMBER_OF_GAME_LEVELS}.`);
+  if (isNaN(question) || question < 1 || question > Settings.NUMBER_OF_GAME_LEVELS + 2) {
+    throw new RangeError(`Level must be between 1...${Settings.NUMBER_OF_GAME_LEVELS + 1}.`);
   }
   return Object.assign({}, game, {
     question

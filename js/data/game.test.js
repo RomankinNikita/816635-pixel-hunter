@@ -15,7 +15,6 @@ import {
   setTime
 } from './game.js';
 
-const testNineAnswers = [...new Array(6).fill(AnswerValue.CORRECT), ...new Array(3).fill(AnswerValue.WRONG)];
 const testTenAnswers = new Array(10).fill(AnswerValue.CORRECT);
 const testMinAnswers = [...new Array(7).fill(AnswerValue.SLOW), ...new Array(3).fill(AnswerValue.WRONG)];
 const testMaxAnswers = new Array(10).fill(AnswerValue.FAST);
@@ -42,10 +41,6 @@ describe(`Calculate Points`, () => {
     });
   });
   describe(`should calculate points`, () => {
-    it(`should answer not less than 10 questions`, () => {
-      assert.equal(calculatePoints(testNineAnswers, 0), -1);
-    });
-
     it(`if all answers are slow and no lives left should return 350 points`, () => {
       assert.equal(calculatePoints(testMinAnswers, 0), 350);
     });
@@ -60,8 +55,8 @@ describe(`Calculate Points`, () => {
 
 describe(`Change level`, () => {
   it(`Parameters shouldn't be incorrect parameter type`, () => {
-    assert.throws(() => changeLevel({}, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
-    assert.throws(() => changeLevel([], 1), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => changeLevel({}, `a`), /Parameters shouldn't be undefined or incorrect parameter type/);
+    assert.throws(() => changeLevel([], `a`), /Parameters shouldn't be undefined or incorrect parameter type/);
     assert.throws(() => changeLevel(0, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
     assert.throws(() => changeLevel(null, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
     assert.throws(() => changeLevel(NaN, 1), /Parameters shouldn't be undefined or incorrect parameter type/);
@@ -74,14 +69,14 @@ describe(`Change level`, () => {
     assert.throws(() => changeLevel(initialState, undefined), /Parameters shouldn't be undefined or incorrect parameter type/);
   });
   it(`should throw range error`, () => {
-    assert.throws(() => changeLevel(initialState, 0), /Level must be between 1...10/);
-    assert.throws(() => changeLevel(initialState, 12), /Level must be between 1...10/);
-    assert.throws(() => changeLevel(initialState, NaN), /Level must be between 1...10/);
+    assert.throws(() => changeLevel(initialState, 0), /Level must be between 1...11/);
+    assert.throws(() => changeLevel(initialState, 13), /Level must be between 1...11/);
+    assert.throws(() => changeLevel(initialState, NaN), /Level must be between 1...11/);
   });
   it(`should change level`, () => {
-    assert.equal(changeLevel(initialState, 0).question, 0);
+    assert.equal(changeLevel(initialState, 1).question, 1);
     assert.equal(changeLevel(initialState, 5).question, 5);
-    assert.equal(changeLevel(initialState, 9).question, 9);
+    assert.equal(changeLevel(initialState, 10).question, 10);
   });
 });
 
