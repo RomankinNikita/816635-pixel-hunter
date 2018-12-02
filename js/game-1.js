@@ -1,12 +1,17 @@
 import {
   changeScreen,
   renderTemplate,
-  getNextScreen
 } from './util.js';
 import greetingScreen from './greeting.js';
 import header from './header.js';
 import answerIndicator from './answer-indicator';
-import {testGame} from './data/data.js';
+import {
+  testGame
+} from './data/data.js';
+import {
+  getNextScreen
+} from './screen.js';
+import {getNextState} from './data/game.js';
 
 const getFirstGameType = (state) => {
   const template = `${header(state)}
@@ -49,9 +54,17 @@ ${answerIndicator(state)}
 
   const gameContentForm = element.querySelector(`.game__content`);
   gameContentForm.addEventListener(`change`, () => {
-    if (gameContentForm.querySelectorAll(`input[type=radio]:checked`).length === 2) {
-      // // const nextState = getNextState(state, answer);
-      const nextState = Object.assign({}, state, {question: `2`});
+    const checkedInputs = gameContentForm.querySelectorAll(`input[type=radio]:checked`);
+    if (checkedInputs.length === 2) {
+      let answer;
+      let nextState;
+      if (checkedInputs[0].value === testGame[state.question].answers[0].answer && checkedInputs[1].value === testGame[state.question].answers[1].answer) {
+        answer = `correct`;
+        nextState = getNextState(state, answer);
+      } else {
+        answer = `wrong`;
+        nextState = getNextState(state, answer);
+      }
       getNextScreen(nextState);
     }
   });

@@ -74,9 +74,9 @@ describe(`Change level`, () => {
     assert.throws(() => changeLevel(initialState, undefined), /Parameters shouldn't be undefined or incorrect parameter type/);
   });
   it(`should throw range error`, () => {
-    assert.throws(() => changeLevel(initialState, -1), /Level must be between 0...9/);
-    assert.throws(() => changeLevel(initialState, 10), /Level must be between 0...9/);
-    assert.throws(() => changeLevel(initialState, NaN), /Level must be between 0...9/);
+    assert.throws(() => changeLevel(initialState, 0), /Level must be between 1...10/);
+    assert.throws(() => changeLevel(initialState, 12), /Level must be between 1...10/);
+    assert.throws(() => changeLevel(initialState, NaN), /Level must be between 1...10/);
   });
   it(`should change level`, () => {
     assert.equal(changeLevel(initialState, 0).question, 0);
@@ -101,7 +101,7 @@ describe(`Set lives`, () => {
     assert.throws(() => setLives(initialState, undefined), /Parameters shouldn't be undefined or incorrect parameter type/);
   });
   it(`should throw range error`, () => {
-    assert.throws(() => setLives(initialState, -1), /Lives must be between 0...3/);
+    assert.throws(() => setLives(initialState, -2), /Lives must be between 0...3/);
     assert.throws(() => setLives(initialState, 4), /Lives must be between 0...3/);
     assert.throws(() => setLives(initialState, NaN), /Lives must be between 0...3/);
   });

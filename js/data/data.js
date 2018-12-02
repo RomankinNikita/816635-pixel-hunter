@@ -33,11 +33,11 @@ export const statsClass = {
 export const initialState = Object.freeze({
   answers: [],
   lives: Settings.MAX_LIVES,
-  question: `1`,
+  question: 1,
   time: Settings.TIME_FOR_QUESTION
 });
 
-const GameType = {
+export const GameType = {
   SINGLE: `single`,
   DOUBLE: `double`,
   TRIPLE: `triple`
@@ -84,6 +84,79 @@ export const testGame = {
       answer: `photo`
     }, {
       content: pictures.photos[2],
+      answer: `photo`
+    }]
+  },
+  '4': {
+    type: GameType.DOUBLE,
+    answers: [{
+      content: pictures.paintings[0],
+      answer: `paint`
+    }, {
+      content: pictures.photos[0],
+      answer: `photo`
+    }]
+  },
+  '5': {
+    type: GameType.DOUBLE,
+    answers: [{
+      content: pictures.paintings[0],
+      answer: `paint`
+    }, {
+      content: pictures.photos[0],
+      answer: `photo`
+    }]
+  },
+  '6': {
+    type: GameType.SINGLE,
+    answers: [{
+      content: pictures.paintings[1],
+      answer: `paint`
+    }]
+  },
+  '7': {
+    type: GameType.TRIPLE,
+    answers: [{
+      content: pictures.paintings[2],
+      answer: `paint`
+    }, {
+      content: pictures.photos[1],
+      answer: `photo`
+    }, {
+      content: pictures.photos[2],
+      answer: `photo`
+    }]
+  },
+  '8': {
+    type: GameType.DOUBLE,
+    answers: [{
+      content: pictures.paintings[0],
+      answer: `paint`
+    }, {
+      content: pictures.photos[0],
+      answer: `photo`
+    }]
+  },
+  '9': {
+    type: GameType.TRIPLE,
+    answers: [{
+      content: pictures.paintings[2],
+      answer: `paint`
+    }, {
+      content: pictures.photos[1],
+      answer: `photo`
+    }, {
+      content: pictures.photos[2],
+      answer: `photo`
+    }]
+  },
+  '10': {
+    type: GameType.DOUBLE,
+    answers: [{
+      content: pictures.paintings[0],
+      answer: `paint`
+    }, {
+      content: pictures.photos[0],
       answer: `photo`
     }]
   }

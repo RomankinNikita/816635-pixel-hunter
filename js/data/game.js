@@ -22,11 +22,11 @@ export const calculatePoints = (answers, lives) => {
 
 // Переключение уровней
 export const changeLevel = (game, question) => {
-  if (game === null || typeof game !== `object` || typeof question !== `number` || typeof game.question !== `number`) {
+  if (game === null || typeof game !== `object` || typeof question !== `number`) {
     throw new Error(`Parameters shouldn't be undefined or incorrect parameter type.`);
   }
-  if (isNaN(question) || question < 0 || question > Settings.NUMBER_OF_GAME_LEVELS - 1) {
-    throw new RangeError(`Level must be between 0...${Settings.NUMBER_OF_GAME_LEVELS - 1}.`);
+  if (isNaN(question) || question < 1 || question > Settings.NUMBER_OF_GAME_LEVELS + 1) {
+    throw new RangeError(`Level must be between 1...${Settings.NUMBER_OF_GAME_LEVELS}.`);
   }
   return Object.assign({}, game, {
     question
@@ -38,7 +38,7 @@ export const setLives = (game, lives) => {
   if (game === null || typeof game !== `object` || typeof lives !== `number` || typeof game.lives !== `number`) {
     throw new Error(`Parameters shouldn't be undefined or incorrect parameter type.`);
   }
-  if (isNaN(lives) || lives < 0 || lives > Settings.MAX_LIVES) {
+  if (isNaN(lives) || lives < -1 || lives > Settings.MAX_LIVES) {
     throw new RangeError(`Lives must be between 0...${Settings.MAX_LIVES}.`);
   }
   return Object.assign({}, game, {
@@ -57,4 +57,16 @@ export const setTime = (game, time) => {
   return Object.assign({}, game, {
     time
   });
+};
+
+export const getNextState = (state, answer) => {
+  let answers = state.answers;
+  let question = parseInt(state.question, 10);
+  let lives = state.lives;
+  answers.push(answer);
+  question += 1;
+  state = changeLevel(state, question);
+  lives = answer === `wrong` ? lives -= 1 : lives;
+  state = setLives(state, lives);
+  return state;
 };

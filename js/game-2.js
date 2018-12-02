@@ -1,7 +1,6 @@
 import {
   changeScreen,
   renderTemplate,
-  getNextScreen
 } from './util.js';
 import greetingScreen from './greeting.js';
 import header from './header.js';
@@ -9,6 +8,10 @@ import answerIndicator from './answer-indicator';
 import {
   testGame
 } from './data/data.js';
+import {
+  getNextScreen
+} from './screen.js';
+import {getNextState} from './data/game.js';
 
 const getSecondGameType = (state) => {
   const template = `${header(state)}
@@ -34,16 +37,22 @@ const getSecondGameType = (state) => {
 
   // back to greetingScreen:
   const backBtn = element.querySelector(`button.back`);
-
   backBtn.addEventListener(`click`, () => {
     changeScreen(greetingScreen);
   });
 
   const gameContentForm = element.querySelector(`.game__content`);
-
   gameContentForm.addEventListener(`change`, () => {
-    // // const nextState = getNextState(state, answer);
-    const nextState = Object.assign({}, state, {question: `3`});
+    const checkedInputs = gameContentForm.querySelectorAll(`input[type=radio]:checked`);
+    let answer;
+    let nextState;
+    if (checkedInputs[0].value === testGame[state.question].answers[0].answer) {
+      answer = `correct`;
+      nextState = getNextState(state, answer);
+    } else {
+      answer = `wrong`;
+      nextState = getNextState(state, answer);
+    }
     getNextScreen(nextState);
   });
   return element;

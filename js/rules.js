@@ -1,10 +1,10 @@
 import {
   renderTemplate,
   changeScreen,
-  getNextScreen
 } from './util.js';
 import greetingScreen from './greeting.js';
 import {initialState} from './data/data.js';
+import {getNextScreen} from './screen.js';
 
 const template = `<header class="header">
 <button class="back">
