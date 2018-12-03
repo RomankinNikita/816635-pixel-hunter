@@ -29,10 +29,8 @@ const getSecondGameType = (state) => {
   const gameContentForm = element.querySelector(`.game__content`);
   gameContentForm.addEventListener(`change`, () => {
     const checkedInput = gameContentForm.querySelector(`input[type=radio]:checked`);
-    let answer;
-    let nextState;
-    answer = (checkedInput.value === testGame[state.question].answers[0].answer) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
-    nextState = getNextState(state, answer);
+    const answer = (checkedInput.value === testGame[state.question].answers[0].answer) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
+    const nextState = getNextState(state, answer);
     getNextScreen(nextState);
   });
   return element;

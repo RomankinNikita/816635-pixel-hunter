@@ -26,22 +26,15 @@ const getGameOption = (state, questions) => {
     ${getLabel(index, questions)}
   </div>`;
 
-  const result = new Array(questions);
-  for (let i = 0; i < questions; i++) {
-    result.push(getTemplate(i));
-  }
-  return result.join(``);
+  return [...Array(questions)].map((it, i) => getTemplate(i)).join(``);
 };
 
-const getGameTemplate = (state) => {
-  const template = `${header(state)}
-  <section class="game">
-  <p class="game__task">${testGame[state.question].task}</p>
-  <form class="game__content">
-    ${getGameOption(state, testGame[state.question].answers.length)}
-  </form>
-  ${answerIndicator(state)}
-  </section>`;
-  return template;
-};
+const getGameTemplate = (state) => `${header(state)}
+<section class="game">
+<p class="game__task">${testGame[state.question].task}</p>
+<form class="game__content">
+  ${getGameOption(state, testGame[state.question].answers.length)}
+</form>
+${answerIndicator(state)}
+</section>`;
 export default getGameTemplate;

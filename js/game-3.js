@@ -31,11 +31,9 @@ const getThirdGameType = (state) => {
   gameOptions.forEach((item) => {
     item.addEventListener(`click`, (evt) => {
       if (evt.target.tagName === `IMG`) {
-        let answer;
-        let nextState;
         const currentIndex = checkThirdGameTypeAnswer(state);
-        answer = (evt.target.src === testGame[state.question].answers[currentIndex].content) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
-        nextState = getNextState(state, answer);
+        const answer = (evt.target.src === testGame[state.question].answers[currentIndex].content) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
+        const nextState = getNextState(state, answer);
         getNextScreen(nextState);
       }
     });

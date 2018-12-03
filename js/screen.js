@@ -35,7 +35,6 @@ export const getNextScreen = (state) => {
 export const checkThirdGameTypeAnswer = (state) => {
   const paintIndexArr = [];
   const photoIndexArr = [];
-  let currentIndex;
   testGame[state.question].answers.forEach((it, index) => {
     if (it.answer === TYPE_PAINT) {
       paintIndexArr.push(index);
@@ -43,6 +42,6 @@ export const checkThirdGameTypeAnswer = (state) => {
       photoIndexArr.push(index);
     }
   });
-  currentIndex = paintIndexArr.length < photoIndexArr.length ? paintIndexArr[0] : photoIndexArr[0];
+  const currentIndex = paintIndexArr.length < photoIndexArr.length ? paintIndexArr[0] : photoIndexArr[0];
   return currentIndex;
 };
