@@ -66,7 +66,7 @@ export const getNextState = (state, answer) => {
   answers.push(answer);
   question += 1;
   state = changeLevel(state, question);
-  lives = answer === `wrong` ? lives -= 1 : lives;
+  lives = answer === AnswerValue.WRONG ? lives -= 1 : lives;
   state = setLives(state, lives);
   return state;
 };
