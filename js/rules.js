@@ -1,9 +1,10 @@
 import {
+  renderTemplate,
   changeScreen,
-  render
 } from './util.js';
-import gameOneScreen from './game-1.js';
 import greetingScreen from './greeting.js';
+import {initialState} from './data/data.js';
+import {getNextScreen} from './screen.js';
 
 const template = `<header class="header">
 <button class="back">
@@ -33,7 +34,7 @@ const template = `<header class="header">
 </form>
 </section>`;
 
-const element = render(template);
+const element = renderTemplate(template);
 
 // back to greetingScreen:
 const backBtn = element.querySelector(`button.back`);
@@ -52,7 +53,7 @@ rulesInput.addEventListener(`input`, () => {
 
 rulesForm.addEventListener(`submit`, (sbmtEvt) => {
   sbmtEvt.preventDefault();
-  changeScreen(gameOneScreen);
+  getNextScreen(initialState);
 });
 
 export default element;

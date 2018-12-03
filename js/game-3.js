@@ -1,51 +1,44 @@
-import {changeScreen, render} from './util.js';
-import statsScreen from './stats.js';
+import {
+  changeScreen,
+  renderTemplate,
+} from './util.js';
 import greetingScreen from './greeting.js';
-import header from './header.js';
+import {
+  AnswerValue,
+  testGame
+} from './data/data.js';
+import {
+  getNextScreen,
+  checkThirdGameTypeAnswer
+} from './screen.js';
+import {
+  getNextState
+} from './data/game.js';
+import getGameTemplate from './sectionGameTemplate.js';
 
-const template = `${header}
-<section class="game">
-<p class="game__task">Найдите рисунок среди изображений</p>
-<form class="game__content  game__content--triple">
-  <div class="game__option">
-    <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-  </div>
-  <div class="game__option  game__option--selected">
-    <img src="http://placehold.it/304x455" alt="Option 2" width="304" height="455">
-  </div>
-  <div class="game__option">
-    <img src="http://placehold.it/304x455" alt="Option 3" width="304" height="455">
-  </div>
-</form>
-<ul class="stats">
-  <li class="stats__result stats__result--wrong"></li>
-  <li class="stats__result stats__result--slow"></li>
-  <li class="stats__result stats__result--fast"></li>
-  <li class="stats__result stats__result--correct"></li>
-  <li class="stats__result stats__result--wrong"></li>
-  <li class="stats__result stats__result--unknown"></li>
-  <li class="stats__result stats__result--slow"></li>
-  <li class="stats__result stats__result--unknown"></li>
-  <li class="stats__result stats__result--fast"></li>
-  <li class="stats__result stats__result--unknown"></li>
-</ul>
-</section>`;
+const getThirdGameType = (state) => {
+  const template = getGameTemplate(state);
 
-const element = render(template);
+  const element = renderTemplate(template);
 
-// back to greetingScreen:
-const backBtn = element.querySelector(`button.back`);
-
-backBtn.addEventListener(`click`, () => {
-  changeScreen(greetingScreen);
-});
-
-const gameOptions = element.querySelectorAll(`.game__option`);
-
-gameOptions.forEach((item) => {
-  item.addEventListener(`click`, () => {
-    changeScreen(statsScreen);
+  // back to greetingScreen:
+  const backBtn = element.querySelector(`button.back`);
+  backBtn.addEventListener(`click`, () => {
+    changeScreen(greetingScreen);
   });
-});
 
-export default element;
+  const gameOptions = element.querySelectorAll(`.game__option`);
+  gameOptions.forEach((item) => {
+    item.addEventListener(`click`, (evt) => {
+      if (evt.target.tagName === `IMG`) {
+        const currentIndex = checkThirdGameTypeAnswer(state);
+        const answer = (evt.target.src === testGame[state.question].answers[currentIndex].content) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
+        const nextState = getNextState(state, answer);
+        getNextScreen(nextState);
+      }
+    });
+  });
+  return element;
+};
+
+export default getThirdGameType;
