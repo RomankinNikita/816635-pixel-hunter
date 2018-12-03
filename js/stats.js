@@ -7,29 +7,33 @@ import answerIndicator from './answer-indicator';
 import {
   calculatePoints
 } from './data/game.js';
+import {
+  Settings,
+  AnswerValue
+} from './data/data.js';
 
 const fastBonus = (state) => {
-  const fastLength = state.answers.filter((it) => it === `fast`).length;
+  const fastLength = state.answers.filter((it) => it === AnswerValue.FAST).length;
   if (fastLength > 0) {
     return `<tr>
     <td></td>
     <td class="result__extra">Бонус за скорость:</td>
   <td class="result__extra">${fastLength }<span class="stats__result stats__result--fast"></span></td>
     <td class="result__points">× 50</td>
-    <td class="result__total">${fastLength * 50}</td>
+    <td class="result__total">${fastLength * Settings.FAST_BONUS}</td>
     </tr>`;
   }
   return ``;
 };
 const slowPenalty = (state) => {
-  const slowLength = state.answers.filter((it) => it === `slow`).length;
+  const slowLength = state.answers.filter((it) => it === AnswerValue.SLOW).length;
   if (slowLength > 0) {
     return `<tr>
     <td></td>
     <td class="result__extra">Штраф за медлительность:</td>
     <td class="result__extra">${slowLength }<span class="stats__result stats__result--slow"></span></td>
     <td class="result__points">× 50</td>
-    <td class="result__total">${slowLength * -50}</td>
+    <td class="result__total">${slowLength * Settings.SLOW_PENALTY}</td>
   </tr>`;
   }
   return ``;
@@ -41,7 +45,7 @@ const livesBonus = (state) => {
     <td class="result__extra">Бонус за жизни:</td>
   <td class="result__extra">${state.lives }<span class="stats__result stats__result--alive"></span></td>
     <td class="result__points">× 50</td>
-    <td class="result__total">${state.lives * 50}</td>
+    <td class="result__total">${state.lives * Settings.LEFT_LIVES_POINT}</td>
   </tr>`;
   }
   return ``;
@@ -68,7 +72,7 @@ const getStatsScreen = (state) => {
     ${answerIndicator(state)}
     </td>
     <td class="result__points">× 100</td>
-    <td class="result__total">${calculatePoints(state.answers, state.lives) - state.lives * 50}</td>
+    <td class="result__total">${calculatePoints(state.answers, state.lives) - state.lives * Settings.LEFT_LIVES_POINT}</td>
   </tr>
   ${fastBonus(state)}
   ${livesBonus(state)}
@@ -98,11 +102,10 @@ const getStatsScreen = (state) => {
       <td colspan="2">
       ${answerIndicator(state)}
       </td>
-      <td class="result__points">× 100</td>
       <td class="result__total result__total--final">FAIL!</td>
     </tr>`;
 
-  const template = (state.answers.length < 10 || state.lives < 0) ? loseTemplate : winTemplate;
+  const template = (state.answers.length < Settings.NUMBER_OF_ANSWERS || state.lives < Settings.MIN_LIVES) ? loseTemplate : winTemplate;
   const element = renderTemplate(template);
 
   // back to greetingScreen:

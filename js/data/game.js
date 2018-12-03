@@ -60,8 +60,8 @@ export const setTime = (game, time) => {
 };
 
 export const getNextState = (state, answer) => {
-  let answers = state.answers;
-  let question = parseInt(state.question, 10);
+  const answers = state.answers;
+  let question = state.question;
   let lives = state.lives;
   answers.push(answer);
   question += 1;

@@ -3,34 +3,21 @@ import {
   renderTemplate,
 } from './util.js';
 import greetingScreen from './greeting.js';
-import header from './header.js';
-import answerIndicator from './answer-indicator';
 import {
+  AnswerValue,
   testGame
 } from './data/data.js';
 import {
   getNextScreen,
   checkThirdGameTypeAnswer
 } from './screen.js';
-import {getNextState} from './data/game.js';
+import {
+  getNextState
+} from './data/game.js';
+import getGameTemplate from './sectionGameTemplate.js';
 
 const getThirdGameType = (state) => {
-  const template = `${header(state)}
-  <section class="game">
-  <p class="game__task">Найдите единственный рисунок или фото среди изображений</p>
-  <form class="game__content  game__content--triple">
-    <div class="game__option">
-      <img src="${testGame[state.question].answers[0].content}" alt="Option 1" width="304" height="455">
-    </div>
-    <div class="game__option  game__option--selected">
-      <img src="${testGame[state.question].answers[1].content}" alt="Option 2" width="304" height="455">
-    </div>
-    <div class="game__option">
-      <img src="${testGame[state.question].answers[2].content}" alt="Option 3" width="304" height="455">
-    </div>
-  </form>
-  ${answerIndicator(state)}
-  </section>`;
+  const template = getGameTemplate(state);
 
   const element = renderTemplate(template);
 
@@ -43,18 +30,14 @@ const getThirdGameType = (state) => {
   const gameOptions = element.querySelectorAll(`.game__option`);
   gameOptions.forEach((item) => {
     item.addEventListener(`click`, (evt) => {
-      let answer;
-      let nextState;
-      const currentIndex = checkThirdGameTypeAnswer(state);
-
-      if (evt.target.src === testGame[state.question].answers[currentIndex].content) {
-        answer = `correct`;
+      if (evt.target.tagName === `IMG`) {
+        let answer;
+        let nextState;
+        const currentIndex = checkThirdGameTypeAnswer(state);
+        answer = (evt.target.src === testGame[state.question].answers[currentIndex].content) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
         nextState = getNextState(state, answer);
-      } else {
-        answer = `wrong`;
-        nextState = getNextState(state, answer);
+        getNextScreen(nextState);
       }
-      getNextScreen(nextState);
     });
   });
   return element;
