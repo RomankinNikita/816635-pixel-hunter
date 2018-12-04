@@ -4,13 +4,16 @@ import {
   frameSize,
   testGame
 } from './data/data.js';
-import resize from './data/resize.js';
+import {
+  resize
+} from './data/resize.js';
 
-const QUESTIONS_LENGTH = 3;
+const ONE_QUESTIONS_LENGTH = 1;
+const THREE_QUESTIONS_LENGTH = 3;
 
 const getGameOption = (state, questions) => {
   const getLabel = (index, questionsLength) => {
-    if (questionsLength !== QUESTIONS_LENGTH) {
+    if (questionsLength !== THREE_QUESTIONS_LENGTH) {
       return `<label class="game__answer game__answer--photo">
       <input class="visually-hidden" name="question${index + 1}" type="radio" value="photo">
       <span>Фото</span>
@@ -37,12 +40,17 @@ const getGameOption = (state, questions) => {
   return [...Array(questions)].map((it, i) => getTemplate(i)).join(``);
 };
 
-const getGameTemplate = (state) => `${header(state)}
-<section class="game">
-<p class="game__task">${testGame[state.question].task}</p>
-<form class="game__content">
-  ${getGameOption(state, testGame[state.question].answers.length)}
-</form>
-${answerIndicator(state)}
-</section>`;
+const getGameTemplate = (state) => {
+  const gameContentWide = testGame[state.question].answers.length === ONE_QUESTIONS_LENGTH ? ` game__content--wide` : ``;
+
+  return `${header(state)}
+  <section class="game">
+  <p class="game__task">${testGame[state.question].task}</p>
+  <form class="game__content${gameContentWide}">
+    ${getGameOption(state, testGame[state.question].answers.length)}
+  </form>
+  ${answerIndicator(state)}
+  </section>`;
+};
+
 export default getGameTemplate;
