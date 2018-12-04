@@ -1,8 +1,10 @@
 import header from './header.js';
 import answerIndicator from './answer-indicator';
 import {
+  frameSize,
   testGame
 } from './data/data.js';
+import resize from './data/resize.js';
 
 const QUESTIONS_LENGTH = 3;
 
@@ -21,10 +23,16 @@ const getGameOption = (state, questions) => {
     return ``;
   };
 
-  const getTemplate = (index) => `<div class="game__option">
-    <img src="${testGame[state.question].answers[index].content}" alt="Option 1" width="468" height="458">
+  const getTemplate = (index) => {
+    const frame = frameSize[testGame[state.question].type];
+    const image = testGame[state.question].answers[index].size;
+    const resizedSize = resize(frame, image);
+
+    return `<div class="game__option">
+    <img src="${testGame[state.question].answers[index].content}" alt="Option 1" width="${resizedSize.width}" height="${resizedSize.height}">
     ${getLabel(index, questions)}
   </div>`;
+  };
 
   return [...Array(questions)].map((it, i) => getTemplate(i)).join(``);
 };
