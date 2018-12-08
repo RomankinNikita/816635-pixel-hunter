@@ -1,4 +1,4 @@
-import answerIndicator from '../answer-indicator.js';
+import answerIndicator from './answer-indicator.js';
 import {
   calculatePoints
 } from '../data/game.js';

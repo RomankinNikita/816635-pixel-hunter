@@ -1,6 +1,6 @@
 import {
   statsClass
-} from './data/data.js';
+} from '../data/data.js';
 
 export default (state) => `<ul class="stats">
   ${state.answers.map((it) => `<li class="stats__result ${statsClass[it]}"></li>`).join(``)}

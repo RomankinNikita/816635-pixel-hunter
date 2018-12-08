@@ -6,11 +6,11 @@ import {
   Settings,
   testGame,
   GameType
-} from './data/data.js';
+} from '../data/data.js';
 import {
   changeScreen
-} from './util.js';
-import getStatsScreen from './stats/stats.js';
+} from '../util.js';
+import getStatsScreen from '../stats/stats.js';
 
 const TYPE_PAINT = `paint`;
 

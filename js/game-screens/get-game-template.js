@@ -1,12 +1,12 @@
 import header from './header.js';
-import answerIndicator from './answer-indicator';
+import answerIndicator from '../stats/answer-indicator';
 import {
   frameSize,
   testGame
-} from './data/data.js';
+} from '../data/data.js';
 import {
   resize
-} from './data/resize.js';
+} from '../data/resize.js';
 
 const ONE_QUESTIONS_LENGTH = 1;
 const THREE_QUESTIONS_LENGTH = 3;
