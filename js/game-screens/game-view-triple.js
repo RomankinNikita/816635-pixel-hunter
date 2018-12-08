@@ -5,12 +5,8 @@ import {
   testGame
 } from '../data/data.js';
 import {
-  getNextScreen,
   checkThirdGameTypeAnswer
 } from './screen.js';
-import {
-  getNextState
-} from '../data/game.js';
 
 export default class GameScreenView extends AbstractView {
   constructor(state) {
@@ -31,10 +27,13 @@ export default class GameScreenView extends AbstractView {
       if (evt.target.tagName === `IMG`) {
         const currentIndex = checkThirdGameTypeAnswer(this.state);
         const answer = (evt.target.src === testGame[this.state.question].answers[currentIndex].content) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
-        const nextState = getNextState(this.state, answer);
-        getNextScreen(nextState);
+        this.onAnswer(answer);
       }
     });
+  }
+
+  onAnswer() {
+
   }
 
   onBackClick() {

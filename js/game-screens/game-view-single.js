@@ -4,13 +4,6 @@ import {
   AnswerValue,
   testGame
 } from '../data/data.js';
-import {
-  getNextScreen
-} from './screen.js';
-import {
-  getNextState
-} from '../data/game.js';
-
 
 export default class GameScreenView extends AbstractView {
   constructor(state) {
@@ -31,10 +24,13 @@ export default class GameScreenView extends AbstractView {
       const target = evt.target;
       if (target.type === `radio`) {
         const answer = (target.value === testGame[this.state.question].answers[0].answer) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
-        const nextState = getNextState(this.state, answer);
-        getNextScreen(nextState);
+        this.onAnswer(answer);
       }
     });
+  }
+
+  onAnswer() {
+
   }
 
   onBackClick() {

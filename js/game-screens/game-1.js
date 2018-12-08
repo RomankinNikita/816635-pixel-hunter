@@ -17,7 +17,7 @@ const getFirstGameType = (state) => {
     changeScreen(greeting());
   };
 
-  firstGameType.onClick = (answer) => {
+  firstGameType.onAnswer = (answer) => {
     const nextState = getNextState(firstGameType.state, answer);
     getNextScreen(nextState);
   };
