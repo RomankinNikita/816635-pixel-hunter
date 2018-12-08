@@ -33,7 +33,7 @@ export default class RulesView extends AbstractView {
 
   bind() {
     const backBtn = this.element.querySelector(`button.back`);
-    backBtn.addEventListener(`click`, this.onClick);
+    backBtn.addEventListener(`click`, this.onBackClick);
 
     const rulesInput = this.element.querySelector(`.rules__input`);
     rulesInput.addEventListener(`input`, this.onInput);
@@ -46,7 +46,7 @@ export default class RulesView extends AbstractView {
 
   }
 
-  onClick() {
+  onBackClick() {
 
   }
 

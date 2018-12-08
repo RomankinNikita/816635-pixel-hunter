@@ -1,8 +1,7 @@
 import {
   changeScreen,
-  renderTemplate,
 } from './util.js';
-import greetingScreen from './greeting.js';
+import greeting from './greeting/greeting.js';
 import {
   AnswerValue,
   testGame
@@ -13,29 +12,29 @@ import {
 import {
   getNextState
 } from './data/game.js';
-import getGameTemplate from './sectionGameTemplate.js';
+import GameScreenView from './game-screen-view.js';
 
 const getFirstGameType = (state) => {
-  const template = getGameTemplate(state);
+  const firstGameType = new GameScreenView(state);
 
-  const element = renderTemplate(template);
+  firstGameType.onBackClick = () => {
+    changeScreen(greeting());
+  };
 
-  // back to greetingScreen:
-  const backBtn = element.querySelector(`button.back`);
-  backBtn.addEventListener(`click`, () => {
-    changeScreen(greetingScreen);
-  });
-
-  const gameContentForm = element.querySelector(`.game__content`);
-  gameContentForm.addEventListener(`change`, () => {
-    const checkedInputs = gameContentForm.querySelectorAll(`input[type=radio]:checked`);
-    if (checkedInputs.length === 2) {
-      const answer = ([...checkedInputs].every((it, i) => it.value === testGame[state.question].answers[i].answer)) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
-      const nextState = getNextState(state, answer);
-      getNextScreen(nextState);
+  firstGameType.onClick = (evt) => {
+    const target = evt.target;
+    if (target.type === `radio`) {
+      const gameContentForm = firstGameType.element.querySelector(`.game__content`);
+      const checkedInputs = gameContentForm.querySelectorAll(`input[type=radio]:checked`);
+      if (checkedInputs.length === 2) {
+        const answer = ([...checkedInputs].every((it, i) => it.value === testGame[firstGameType.state.question].answers[i].answer)) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
+        const nextState = getNextState(firstGameType.state, answer);
+        getNextScreen(nextState);
+      }
     }
-  });
-  return element;
+  };
+
+  return firstGameType;
 };
 
 export default getFirstGameType;

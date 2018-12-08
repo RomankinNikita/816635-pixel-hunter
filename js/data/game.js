@@ -60,13 +60,13 @@ export const setTime = (game, time) => {
 };
 
 export const getNextState = (state, answer) => {
-  const answers = state.answers;
+  const answers = state.answers.slice();
   let question = state.question;
   let lives = state.lives;
   answers.push(answer);
   question += 1;
   state = changeLevel(state, question);
   lives = answer === AnswerValue.WRONG ? lives -= 1 : lives;
-  state = setLives(state, lives);
+  state = Object.assign({}, setLives(state, lives), {answers});
   return state;
 };

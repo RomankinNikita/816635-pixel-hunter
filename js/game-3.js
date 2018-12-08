@@ -1,8 +1,7 @@
 import {
   changeScreen,
-  renderTemplate,
 } from './util.js';
-import greetingScreen from './greeting.js';
+import greeting from './greeting/greeting.js';
 import {
   AnswerValue,
   testGame
@@ -14,31 +13,25 @@ import {
 import {
   getNextState
 } from './data/game.js';
-import getGameTemplate from './sectionGameTemplate.js';
+import GameScreenView from './game-screen-view.js';
 
 const getThirdGameType = (state) => {
-  const template = getGameTemplate(state);
+  const thirdGameType = new GameScreenView(state);
 
-  const element = renderTemplate(template);
+  thirdGameType.onBackClick = () => {
+    changeScreen(greeting());
+  };
 
-  // back to greetingScreen:
-  const backBtn = element.querySelector(`button.back`);
-  backBtn.addEventListener(`click`, () => {
-    changeScreen(greetingScreen);
-  });
+  thirdGameType.onClick = (evt) => {
+    if (evt.target.tagName === `IMG`) {
+      const currentIndex = checkThirdGameTypeAnswer(thirdGameType.state);
+      const answer = (evt.target.src === testGame[thirdGameType.state.question].answers[currentIndex].content) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
+      const nextState = getNextState(thirdGameType.state, answer);
+      getNextScreen(nextState);
+    }
+  };
 
-  const gameOptions = element.querySelectorAll(`.game__option`);
-  gameOptions.forEach((item) => {
-    item.addEventListener(`click`, (evt) => {
-      if (evt.target.tagName === `IMG`) {
-        const currentIndex = checkThirdGameTypeAnswer(state);
-        const answer = (evt.target.src === testGame[state.question].answers[currentIndex].content) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
-        const nextState = getNextState(state, answer);
-        getNextScreen(nextState);
-      }
-    });
-  });
-  return element;
+  return thirdGameType;
 };
 
 export default getThirdGameType;

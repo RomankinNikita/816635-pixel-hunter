@@ -10,7 +10,7 @@ import {
 import {
   changeScreen
 } from './util.js';
-import getStatsScreen from './stats.js';
+import getStatsScreen from './stats/stats.js';
 
 const TYPE_PAINT = `paint`;
 

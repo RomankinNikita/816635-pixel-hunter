@@ -1,8 +1,7 @@
 import {
   changeScreen,
-  renderTemplate,
 } from './util.js';
-import greetingScreen from './greeting.js';
+import greeting from './greeting/greeting.js';
 import {
   AnswerValue,
   testGame
@@ -13,27 +12,25 @@ import {
 import {
   getNextState
 } from './data/game.js';
-import getGameTemplate from './sectionGameTemplate.js';
+import GameScreenView from './game-screen-view.js';
 
 const getSecondGameType = (state) => {
-  const template = getGameTemplate(state);
+  const secondGameType = new GameScreenView(state);
 
-  const element = renderTemplate(template);
+  secondGameType.onBackClick = () => {
+    changeScreen(greeting());
+  };
 
-  // back to greetingScreen:
-  const backBtn = element.querySelector(`button.back`);
-  backBtn.addEventListener(`click`, () => {
-    changeScreen(greetingScreen);
-  });
+  secondGameType.onClick = (evt) => {
+    const target = evt.target;
+    if (target.type === `radio`) {
+      const answer = (target.value === testGame[secondGameType.state.question].answers[0].answer) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
+      const nextState = getNextState(secondGameType.state, answer);
+      getNextScreen(nextState);
+    }
+  };
 
-  const gameContentForm = element.querySelector(`.game__content`);
-  gameContentForm.addEventListener(`change`, () => {
-    const checkedInput = gameContentForm.querySelector(`input[type=radio]:checked`);
-    const answer = (checkedInput.value === testGame[state.question].answers[0].answer) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
-    const nextState = getNextState(state, answer);
-    getNextScreen(nextState);
-  });
-  return element;
+  return secondGameType;
 };
 
 export default getSecondGameType;

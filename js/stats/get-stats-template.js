@@ -1,16 +1,12 @@
-import {
-  changeScreen,
-  renderTemplate
-} from './util.js';
-import greetingScreen from './greeting.js';
-import answerIndicator from './answer-indicator';
+import answerIndicator from '../answer-indicator.js';
 import {
   calculatePoints
-} from './data/game.js';
+} from '../data/game.js';
 import {
   Settings,
   AnswerValue
-} from './data/data.js';
+} from '../data/data.js';
+
 
 const fastBonus = (state) => {
   const fastLength = state.answers.filter((it) => it === AnswerValue.FAST).length;
@@ -104,17 +100,8 @@ const getStatsScreen = (state) => {
       </td>
       <td class="result__total result__total--final">FAIL!</td>
     </tr>`;
-
   const template = (state.answers.length < Settings.NUMBER_OF_ANSWERS || state.lives < Settings.MIN_LIVES) ? loseTemplate : winTemplate;
-  const element = renderTemplate(template);
-
-  // back to greetingScreen:
-  const backBtn = element.querySelector(`button.back`);
-
-  backBtn.addEventListener(`click`, () => {
-    changeScreen(greetingScreen);
-  });
-  return element;
+  return template;
 };
 
 export default getStatsScreen;
