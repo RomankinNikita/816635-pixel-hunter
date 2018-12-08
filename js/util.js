@@ -6,7 +6,7 @@ export const renderTemplate = (template) => {
   return container;
 };
 
-export const changeScreen = (element) => {
+export const changeScreen = (view) => {
   mainElement.innerHTML = ``;
-  mainElement.appendChild(element);
+  mainElement.appendChild(view.element);
 };

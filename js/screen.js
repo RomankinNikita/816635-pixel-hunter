@@ -23,12 +23,9 @@ const GameTypes = {
 const getGameModule = (state) => {
   return GameTypes[testGame[state.question].type](state);
 };
-const getStatsBlock = (state) => {
-  return getStatsScreen(state);
-};
 
 export const getNextScreen = (state) => {
-  const next = (state.question <= Settings.NUMBER_OF_GAME_LEVELS && state.lives >= Settings.MIN_LIVES) ? getGameModule(state) : getStatsBlock(state);
+  const next = (state.question <= Settings.NUMBER_OF_GAME_LEVELS && state.lives >= Settings.MIN_LIVES) ? getGameModule(state) : getStatsScreen(state);
   changeScreen(next);
 };
 
