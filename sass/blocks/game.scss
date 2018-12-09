@@ -102,11 +102,11 @@
     }
   }
 
-  & input:focus+span {
+  & input:focus + span {
     background-color: $main-black-color;
   }
 
-  & input:checked+span {
+  & input:checked + span {
     background-color: $link-hover-color;
   }
 }
