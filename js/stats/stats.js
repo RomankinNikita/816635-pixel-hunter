@@ -1,14 +1,13 @@
-import {
-  changeScreen,
-} from '../util.js';
-import greeting from '../greeting/greeting.js';
 import StatsView from './stats-view.js';
+import modalConfirm from '../modal/modal-confirm/modal-confirm.js';
+
+const mainElement = document.querySelector(`#main`);
 
 const getStatsScreen = (state) => {
   const stats = new StatsView(state);
 
   stats.onBackClick = () => {
-    changeScreen(greeting());
+    mainElement.appendChild(modalConfirm().element);
   };
 
   return stats;

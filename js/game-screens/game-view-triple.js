@@ -27,7 +27,6 @@ export default class GameScreenView extends AbstractView {
     const gameContentForm = this.element.querySelector(`.game__content`);
     gameContentForm.addEventListener(`click`, (evt) => {
       if (evt.target.tagName === `IMG`) {
-        this.resetTimer();
         const currentIndex = checkThirdGameTypeAnswer(this.state);
         let answer = (evt.target.src === testGame[this.state.question].answers[currentIndex].content) ? AnswerValue.CORRECT : AnswerValue.WRONG;
         if (answer === AnswerValue.CORRECT) {
@@ -43,12 +42,12 @@ export default class GameScreenView extends AbstractView {
     });
   }
 
-  setTimer() {
-
-  }
-
-  resetTimer() {
-    clearTimeout(this.timer);
+  onTick() {
+    const timeIndicator = this.element.querySelector(`.game__timer`);
+    if (this.time <= Settings.BLINK_TIME) {
+      timeIndicator.classList.add(`game__timer-blink`);
+    }
+    timeIndicator.textContent = this.time;
   }
 
   onAnswer() {

@@ -25,7 +25,6 @@ export default class GameScreenView extends AbstractView {
     gameContentForm.addEventListener(`click`, (evt) => {
       const target = evt.target;
       if (target.type === `radio`) {
-        this.resetTimer();
         let answer = (target.value === testGame[this.state.question].answers[0].answer) ? AnswerValue.CORRECT : AnswerValue.WRONG;
         if (answer === AnswerValue.CORRECT) {
           if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
@@ -40,12 +39,12 @@ export default class GameScreenView extends AbstractView {
     });
   }
 
-  setTimer() {
-
-  }
-
-  resetTimer() {
-    clearTimeout(this.timer);
+  onTick() {
+    const timeIndicator = this.element.querySelector(`.game__timer`);
+    if (this.time <= Settings.BLINK_TIME) {
+      timeIndicator.classList.add(`game__timer-blink`);
+    }
+    timeIndicator.textContent = this.time;
   }
 
   onAnswer() {

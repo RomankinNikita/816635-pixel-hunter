@@ -27,7 +27,6 @@ export default class GameScreenView extends AbstractView {
       if (target.type === `radio`) {
         const checkedInputs = gameContentForm.querySelectorAll(`input[type=radio]:checked`);
         if (checkedInputs.length === 2) {
-          this.resetTimer();
           let answer = ([...checkedInputs].every((it, i) => it.value === testGame[this.state.question].answers[i].answer)) ? AnswerValue.CORRECT : AnswerValue.WRONG;
           if (answer === AnswerValue.CORRECT) {
             if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
@@ -43,12 +42,12 @@ export default class GameScreenView extends AbstractView {
     });
   }
 
-  setTimer() {
-
-  }
-
-  resetTimer() {
-    clearTimeout(this.timer);
+  onTick() {
+    const timeIndicator = this.element.querySelector(`.game__timer`);
+    if (this.time <= Settings.BLINK_TIME) {
+      timeIndicator.classList.add(`game__timer-blink`);
+    }
+    timeIndicator.textContent = this.time;
   }
 
   onAnswer() {
