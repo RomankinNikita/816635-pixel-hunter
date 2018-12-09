@@ -6,7 +6,10 @@ export const Settings = {
   FAST_BONUS: 50,
   SLOW_PENALTY: -50,
   TIME_FOR_QUESTION: 30,
-  NUMBER_OF_GAME_LEVELS: 10
+  FAST_ANSWER_TIME: 10,
+  SLOW_ANSWER_TIME: 20,
+  NUMBER_OF_GAME_LEVELS: 10,
+  BLINK_TIME: 5
 };
 
 export const AnswerValue = {

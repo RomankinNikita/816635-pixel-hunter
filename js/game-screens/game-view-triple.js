@@ -1,6 +1,7 @@
 import AbstractView from '../abstract-view.js';
 import getGameTemplate from './get-game-template.js';
 import {
+  Settings,
   AnswerValue,
   testGame
 } from '../data/data.js';
@@ -12,6 +13,7 @@ export default class GameScreenView extends AbstractView {
   constructor(state) {
     super();
     this.state = state;
+    this.time = this.state.time;
   }
 
   get template() {
@@ -25,11 +27,48 @@ export default class GameScreenView extends AbstractView {
     const gameContentForm = this.element.querySelector(`.game__content`);
     gameContentForm.addEventListener(`click`, (evt) => {
       if (evt.target.tagName === `IMG`) {
+        this.resetTimer();
         const currentIndex = checkThirdGameTypeAnswer(this.state);
-        const answer = (evt.target.src === testGame[this.state.question].answers[currentIndex].content) ? `${AnswerValue.CORRECT}` : `${AnswerValue.WRONG}`;
+        let answer = (evt.target.src === testGame[this.state.question].answers[currentIndex].content) ? AnswerValue.CORRECT : AnswerValue.WRONG;
+        if (answer === AnswerValue.CORRECT) {
+          if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
+            answer = AnswerValue.FAST;
+          }
+          if (this.time < (Settings.TIME_FOR_QUESTION - Settings.SLOW_ANSWER_TIME)) {
+            answer = AnswerValue.SLOW;
+          }
+        }
         this.onAnswer(answer);
       }
     });
+  }
+
+  setTimer() {
+    const timeIndicator = this.element.querySelector(`.game__timer`);
+    const startTimer = () => {
+      if (this.time <= Settings.BLINK_TIME) {
+        clearInterval(this.interval);
+        timeIndicator.style.color = `red`;
+        this.interval = setInterval(() => {
+          timeIndicator.style.opacity = 1 - (timeIndicator.style.opacity || 1);
+        }, 500);
+      }
+      timeIndicator.textContent = this.time;
+      this.time -= 1;
+      if (this.time < 0) {
+        this.resetTimer();
+        const answer = AnswerValue.WRONG;
+        this.onAnswer(answer);
+      } else {
+        this.timer = setTimeout(startTimer, 1000);
+      }
+    };
+    startTimer();
+  }
+
+  resetTimer() {
+    clearInterval(this.interval);
+    clearTimeout(this.timer);
   }
 
   onAnswer() {

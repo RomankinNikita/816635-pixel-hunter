@@ -1,7 +1,4 @@
-import getFirstGameType from './game-1.js';
-import getSecondGameType from './game-2.js';
-import getThirdGameType from './game-3.js';
-
+import getGameType from './get-game-type.js';
 import {
   Settings,
   testGame,
@@ -11,17 +8,20 @@ import {
   changeScreen
 } from '../util.js';
 import getStatsScreen from '../stats/stats.js';
+import GameScreenViewDouble from './game-view-double.js';
+import GameScreenViewSingle from './game-view-single.js';
+import GameScreenViewTriple from './game-view-triple.js';
 
 const TYPE_PAINT = `paint`;
 
 const GameTypes = {
-  [GameType.DOUBLE]: getFirstGameType,
-  [GameType.SINGLE]: getSecondGameType,
-  [GameType.TRIPLE]: getThirdGameType,
+  [GameType.DOUBLE]: GameScreenViewDouble,
+  [GameType.SINGLE]: GameScreenViewSingle,
+  [GameType.TRIPLE]: GameScreenViewTriple,
 };
 
 const getGameModule = (state) => {
-  return GameTypes[testGame[state.question].type](state);
+  return getGameType(state, GameTypes[testGame[state.question].type]);
 };
 
 export const getNextScreen = (state) => {

@@ -68,5 +68,6 @@ export const getNextState = (state, answer) => {
   state = changeLevel(state, question);
   lives = answer === AnswerValue.WRONG ? lives -= 1 : lives;
   state = Object.assign({}, setLives(state, lives), {answers});
+  state = setTime(state, Settings.TIME_FOR_QUESTION);
   return state;
 };
