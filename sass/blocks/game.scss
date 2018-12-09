@@ -18,6 +18,22 @@
   line-height: 45px;
 }
 
+.game__timer-blink {
+  color: red;
+  animation: blink 500ms alternate infinite;
+}
+
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+
 .game__task {
   margin: 20px 0;
 
@@ -86,11 +102,11 @@
     }
   }
 
-  & input:focus + span {
+  & input:focus+span {
     background-color: $main-black-color;
   }
 
-  & input:checked + span {
+  & input:checked+span {
     background-color: $link-hover-color;
   }
 }

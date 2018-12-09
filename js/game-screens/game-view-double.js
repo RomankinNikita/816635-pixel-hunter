@@ -44,30 +44,10 @@ export default class GameScreenView extends AbstractView {
   }
 
   setTimer() {
-    const timeIndicator = this.element.querySelector(`.game__timer`);
-    const startTimer = () => {
-      if (this.time <= Settings.BLINK_TIME) {
-        clearInterval(this.interval);
-        timeIndicator.style.color = `red`;
-        this.interval = setInterval(() => {
-          timeIndicator.style.opacity = 1 - (timeIndicator.style.opacity || 1);
-        }, 500);
-      }
-      timeIndicator.textContent = this.time;
-      this.time -= 1;
-      if (this.time < 0) {
-        this.resetTimer();
-        const answer = AnswerValue.WRONG;
-        this.onAnswer(answer);
-      } else {
-        this.timer = setTimeout(startTimer, 1000);
-      }
-    };
-    startTimer();
+
   }
 
   resetTimer() {
-    clearInterval(this.interval);
     clearTimeout(this.timer);
   }
 
