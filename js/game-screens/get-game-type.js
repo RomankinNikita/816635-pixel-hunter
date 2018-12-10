@@ -8,18 +8,18 @@ import {
   AnswerValue
 } from '../data/data.js';
 import modalConfirm from '../modal/modal-confirm/modal-confirm.js';
-
-const mainElement = document.querySelector(`#main`);
+import {showModal} from '../util.js';
 
 const startTimer = (game) => {
+  let timer;
   game.onTick();
   game.time -= 1;
   if (game.time < 0) {
-    clearTimeout(game.timer);
+    clearTimeout(timer);
     const answer = AnswerValue.WRONG;
     game.onAnswer(answer);
   } else {
-    game.timer = setTimeout(() => startTimer(game), 1000);
+    timer = setTimeout(() => startTimer(game), 1000);
   }
 };
 
@@ -27,7 +27,7 @@ const getGameType = (state, GameView) => {
   const gameType = new GameView(state);
 
   gameType.onBackClick = () => {
-    mainElement.appendChild(modalConfirm().element);
+    showModal(modalConfirm());
   };
 
   gameType.onAnswer = (answer) => {

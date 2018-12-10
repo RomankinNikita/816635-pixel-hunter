@@ -2,14 +2,12 @@ import {initialState} from '../data/data.js';
 import {getNextScreen} from '../game-screens/screen.js';
 import RulesView from './rules-view.js';
 import modalConfirm from '../modal/modal-confirm/modal-confirm.js';
-
-const mainElement = document.querySelector(`#main`);
+import {showModal} from '../util.js';
 
 const rules = new RulesView();
 
 rules.onBackClick = () => {
-  mainElement.appendChild(modalConfirm().element);
-
+  showModal(modalConfirm());
 };
 
 rules.onSubmit = (sbmtEvt) => {

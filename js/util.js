@@ -10,3 +10,7 @@ export const changeScreen = ({element}) => {
   mainElement.innerHTML = ``;
   mainElement.appendChild(element);
 };
+
+export const showModal = ({element}) => {
+  mainElement.appendChild(element);
+};

@@ -1,13 +1,12 @@
 import StatsView from './stats-view.js';
 import modalConfirm from '../modal/modal-confirm/modal-confirm.js';
-
-const mainElement = document.querySelector(`#main`);
+import {showModal} from '../util.js';
 
 const getStatsScreen = (state) => {
   const stats = new StatsView(state);
 
   stats.onBackClick = () => {
-    mainElement.appendChild(modalConfirm().element);
+    showModal(modalConfirm());
   };
 
   return stats;
