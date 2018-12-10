@@ -4,7 +4,8 @@ import {
 } from '../data/game.js';
 import {
   Settings,
-  AnswerValue
+  AnswerValue,
+  AnswerPoint
 } from '../data/data.js';
 
 
@@ -68,7 +69,7 @@ const getStatsScreen = (state) => {
     ${answerIndicator(state)}
     </td>
     <td class="result__points">× 100</td>
-    <td class="result__total">${calculatePoints(state.answers, state.lives) - state.lives * Settings.LEFT_LIVES_POINT}</td>
+    <td class="result__total">${(state.answers.length - state.answers.filter((it) => it === AnswerValue.WRONG).length) * AnswerPoint[AnswerValue.CORRECT]}</td>
   </tr>
   ${fastBonus(state)}
   ${livesBonus(state)}
