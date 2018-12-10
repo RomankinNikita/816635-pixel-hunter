@@ -6,7 +6,11 @@ export const renderTemplate = (template) => {
   return container;
 };
 
-export const changeScreen = (element) => {
+export const changeScreen = ({element}) => {
   mainElement.innerHTML = ``;
+  mainElement.appendChild(element);
+};
+
+export const showModal = ({element}) => {
   mainElement.appendChild(element);
 };

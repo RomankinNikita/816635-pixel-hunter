@@ -18,6 +18,22 @@
   line-height: 45px;
 }
 
+.game__timer-blink {
+  color: red;
+  animation: blink 500ms alternate infinite;
+}
+
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+
 .game__task {
   margin: 20px 0;
 
