@@ -19,7 +19,7 @@ const startTimer = (game) => {
     const answer = AnswerValue.WRONG;
     game.onAnswer(answer);
   } else {
-    game.timer = setTimeout(startTimer, 1000);
+    game.timer = setTimeout(() => startTimer(game), 1000);
   }
 };
 
