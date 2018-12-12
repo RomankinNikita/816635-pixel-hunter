@@ -1,18 +1,24 @@
-import {initialState} from '../data/data.js';
-import {getNextScreen} from '../game-screens/screen.js';
+import {
+  initialState
+} from '../data/data.js';
 import RulesView from './rules-view.js';
-import modalConfirm from '../modal/modal-confirm/modal-confirm.js';
-import {showModal} from '../util.js';
+import ModalConfirm from '../modal/modal-confirm/modal-confirm.js';
+import {
+  showModal
+} from '../util.js';
+import Application from '../application.js';
 
-const rules = new RulesView();
+class RulesScreen {
+  constructor() {
+    this.view = new RulesView();
+    this.view.onBackClick = () => {
+      showModal(new ModalConfirm());
+    };
+    this.view.onSubmit = (sbmtEvt) => {
+      sbmtEvt.preventDefault();
+      Application.showGame(initialState);
+    };
+  }
+}
 
-rules.onBackClick = () => {
-  showModal(modalConfirm());
-};
-
-rules.onSubmit = (sbmtEvt) => {
-  sbmtEvt.preventDefault();
-  getNextScreen(initialState);
-};
-
-export default () => rules;
+export default RulesScreen;

@@ -1,15 +1,16 @@
 import StatsView from './stats-view.js';
-import modalConfirm from '../modal/modal-confirm/modal-confirm.js';
-import {showModal} from '../util.js';
+import ModalConfirm from '../modal/modal-confirm/modal-confirm.js';
+import {
+  showModal
+} from '../util.js';
 
-const getStatsScreen = (state) => {
-  const stats = new StatsView(state);
+class StatsScreen {
+  constructor(state) {
+    this.view = new StatsView(state);
+    this.view.onBackClick = () => {
+      showModal(new ModalConfirm());
+    };
+  }
+}
 
-  stats.onBackClick = () => {
-    showModal(modalConfirm());
-  };
-
-  return stats;
-};
-
-export default getStatsScreen;
+export default StatsScreen;

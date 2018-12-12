@@ -1,44 +1,40 @@
 import {
-  getNextScreen
+  getViewType
 } from './screen.js';
+import ModalConfirm from '../modal/modal-confirm/modal-confirm.js';
 import {
-  getNextState
-} from '../data/game.js';
-import {
-  AnswerValue
-} from '../data/data.js';
-import modalConfirm from '../modal/modal-confirm/modal-confirm.js';
-import {showModal} from '../util.js';
+  showModal
+} from '../util.js';
 
-let timer;
-const startTimer = (game) => {
-  game.onTick();
-  game.time -= 1;
-  if (game.time < 0) {
-    clearTimeout(timer);
-    const answer = AnswerValue.WRONG;
-    game.onAnswer(answer);
-  } else {
-    timer = setTimeout(() => startTimer(game), 1000);
+class GameScreen {
+  constructor(model) {
+    this.model = model;
+    this.view = null;
   }
-};
 
-const getGameType = (state, GameView) => {
-  const gameType = new GameView(state);
+  startTimer(view) {
+    this.model.startTimer(view);
+  }
 
-  gameType.onBackClick = () => {
-    showModal(modalConfirm());
-  };
+  stopTimer() {
+    clearTimeout(this.model.timer);
+  }
 
-  gameType.onAnswer = (answer) => {
-    clearTimeout(timer);
-    const nextState = getNextState(gameType.state, answer);
-    getNextScreen(nextState);
-  };
+  startGame() {
+    const View = getViewType(this.model._state);
+    this.view = new View(this.model._state);
 
-  startTimer(gameType);
+    this.view.onBackClick = () => {
+      showModal(new ModalConfirm());
+    };
 
-  return gameType;
-};
+    this.view.onAnswer = (answer) => {
+      this.stopTimer();
+      this.model.nextScreen(answer);
+    };
 
-export default getGameType;
+    this.startTimer(this.view);
+  }
+}
+
+export default GameScreen;

@@ -1,13 +1,13 @@
-import {
-  changeScreen
-} from '../util.js';
-import greeting from '../greeting/greeting.js';
 import IntroView from './intro-view.js';
+import Application from '../application.js';
 
-const intro = new IntroView();
+class IntroScreen {
+  constructor() {
+    this.view = new IntroView();
+    this.view.onClick = () => {
+      Application.showGreeting();
+    };
+  }
+}
 
-intro.onClick = () => {
-  changeScreen(greeting());
-};
-
-export default () => intro;
+export default IntroScreen;
