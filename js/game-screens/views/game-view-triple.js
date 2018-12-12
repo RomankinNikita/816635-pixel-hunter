@@ -1,13 +1,13 @@
-import AbstractView from '../abstract-view.js';
+import AbstractView from '../../abstract-view.js';
 import getGameTemplate from './get-game-template.js';
 import {
   Settings,
   AnswerValue,
   testGame
-} from '../data/data.js';
+} from '../../data/data.js';
 import {
   checkThirdGameTypeAnswer
-} from './screen.js';
+} from '../../data/game.js';
 
 export default class GameScreenView extends AbstractView {
   constructor(state) {

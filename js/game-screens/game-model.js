@@ -1,11 +1,11 @@
 import {
   getNextState
-} from './data/game.js';
+} from '../data/game.js';
 import {
   Settings,
   AnswerValue
-} from './data/data.js';
-import Application from './application.js';
+} from '../data/data.js';
+import Application from '../application.js';
 
 class GameModel {
   constructor(state) {
@@ -29,6 +29,8 @@ class GameModel {
 
   startTimer(view) {
     const start = () => {
+      console.log(this._state.question);
+
       view.onTick();
       view.time -= 1;
       if (view.time < 0) {
