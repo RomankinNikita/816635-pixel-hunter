@@ -29,7 +29,6 @@ class GameModel {
 
   startTimer(view) {
     const start = () => {
-      console.log(this._state.question);
       view.onTick();
       view.time -= 1;
       if (view.time < 0) {
