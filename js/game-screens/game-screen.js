@@ -12,28 +12,20 @@ class GameScreen {
     this.view = null;
   }
 
-  startTimer(view) {
-    this.model.startTimer(view);
-  }
-
-  stopTimer() {
-    clearTimeout(this.model.timer);
-  }
-
   startGame() {
     const View = getViewType(this.model._state);
     this.view = new View(this.model._state);
 
     this.view.onBackClick = () => {
-      showModal(new ModalConfirm());
+      showModal(new ModalConfirm(this.model));
     };
 
     this.view.onAnswer = (answer) => {
-      this.stopTimer();
+      this.model.stopTimer();
       this.model.nextScreen(answer);
     };
 
-    this.startTimer(this.view);
+    this.model.startTimer(this.view);
   }
 }
 

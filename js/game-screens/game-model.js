@@ -41,6 +41,10 @@ class GameModel {
     };
     start();
   }
+
+  stopTimer() {
+    clearTimeout(this.timer);
+  }
 }
 
 export default GameModel;
