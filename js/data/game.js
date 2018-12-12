@@ -2,20 +2,10 @@ import {
   Settings,
   AnswerValue,
   AnswerPoint,
-  testGame,
-  GameType
+  testGame
 } from './data.js';
-import GameScreenViewDouble from '../game-screens/views/game-view-double.js';
-import GameScreenViewSingle from '../game-screens/views/game-view-single.js';
-import GameScreenViewTriple from '../game-screens/views/game-view-triple.js';
 
 const TYPE_PAINT = `paint`;
-
-const GameTypes = {
-  [GameType.DOUBLE]: GameScreenViewDouble,
-  [GameType.SINGLE]: GameScreenViewSingle,
-  [GameType.TRIPLE]: GameScreenViewTriple,
-};
 
 // Подсчет очков
 export const calculatePoints = (answers, lives) => {
@@ -87,11 +77,6 @@ export const getNextState = (state, answer) => {
   return state;
 };
 
-export const getViewType = (state) => {
-  const viewType = GameTypes[testGame[state.question].type];
-  return viewType;
-};
-
 export const checkThirdGameTypeAnswer = (state) => {
   const paintIndexArr = [];
   const photoIndexArr = [];
@@ -104,11 +89,4 @@ export const checkThirdGameTypeAnswer = (state) => {
   });
   const currentIndex = paintIndexArr.length < photoIndexArr.length ? paintIndexArr[0] : photoIndexArr[0];
   return currentIndex;
-};
-
-export const clearAllTimers = () => {
-  let maxId = setTimeout(function () {});
-  while (maxId--) {
-    clearTimeout(maxId);
-  }
 };

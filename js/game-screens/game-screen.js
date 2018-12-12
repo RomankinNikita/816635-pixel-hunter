@@ -1,6 +1,6 @@
 import {
   getViewType
-} from '../data/game.js';
+} from './views/get-game-template.js';
 import ModalConfirm from '../modal/modal-confirm/modal-confirm.js';
 import {
   showModal

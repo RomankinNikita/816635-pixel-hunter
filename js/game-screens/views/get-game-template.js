@@ -2,14 +2,28 @@ import header from '../header.js';
 import answerIndicator from '../../stats/answer-indicator';
 import {
   frameSize,
-  testGame
+  testGame,
+  GameType
 } from '../../data/data.js';
 import {
   resize
 } from '../../data/resize.js';
+import GameScreenViewDouble from './game-view-double.js';
+import GameScreenViewSingle from './game-view-single.js';
+import GameScreenViewTriple from './game-view-triple.js';
 
+const GameTypes = {
+  [GameType.DOUBLE]: GameScreenViewDouble,
+  [GameType.SINGLE]: GameScreenViewSingle,
+  [GameType.TRIPLE]: GameScreenViewTriple,
+};
 const ONE_QUESTIONS_LENGTH = 1;
 const THREE_QUESTIONS_LENGTH = 3;
+
+export const getViewType = (state) => {
+  const viewType = GameTypes[testGame[state.question].type];
+  return viewType;
+};
 
 const getGameOption = (state, questions) => {
   const getLabel = (index, questionsLength) => {
