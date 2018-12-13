@@ -1,4 +1,3 @@
-import {changeScreen} from './util.js';
-import intro from './intro/intro.js';
+import Application from './application.js';
 
-changeScreen(intro());
+Application.showIntro();

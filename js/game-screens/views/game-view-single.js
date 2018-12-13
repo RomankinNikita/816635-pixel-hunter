@@ -1,10 +1,10 @@
-import AbstractView from '../abstract-view.js';
+import AbstractView from '../../abstract-view.js';
 import getGameTemplate from './get-game-template.js';
 import {
   Settings,
   AnswerValue,
   testGame
-} from '../data/data.js';
+} from '../../data/data.js';
 
 export default class GameScreenView extends AbstractView {
   constructor(state) {
@@ -25,19 +25,16 @@ export default class GameScreenView extends AbstractView {
     gameContentForm.addEventListener(`click`, (evt) => {
       const target = evt.target;
       if (target.type === `radio`) {
-        const checkedInputs = gameContentForm.querySelectorAll(`input[type=radio]:checked`);
-        if (checkedInputs.length === 2) {
-          let answer = ([...checkedInputs].every((it, i) => it.value === testGame[this.state.question].answers[i].answer)) ? AnswerValue.CORRECT : AnswerValue.WRONG;
-          if (answer === AnswerValue.CORRECT) {
-            if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
-              answer = AnswerValue.FAST;
-            }
-            if (this.time < (Settings.TIME_FOR_QUESTION - Settings.SLOW_ANSWER_TIME)) {
-              answer = AnswerValue.SLOW;
-            }
+        let answer = (target.value === testGame[this.state.question].answers[0].answer) ? AnswerValue.CORRECT : AnswerValue.WRONG;
+        if (answer === AnswerValue.CORRECT) {
+          if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
+            answer = AnswerValue.FAST;
           }
-          this.onAnswer(answer);
+          if (this.time < (Settings.TIME_FOR_QUESTION - Settings.SLOW_ANSWER_TIME)) {
+            answer = AnswerValue.SLOW;
+          }
         }
+        this.onAnswer(answer);
       }
     });
   }

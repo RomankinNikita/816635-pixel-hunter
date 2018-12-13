@@ -1,14 +1,17 @@
-import {
-  changeScreen,
-} from '../../util.js';
-import greeting from '../../greeting/greeting.js';
-
 import ModalConfirmView from './modal-confirm-view.js';
+import Application from '../../application.js';
 
-const modalConfirm = new ModalConfirmView();
+class ModalConfirm {
+  constructor(model = null) {
+    this.view = new ModalConfirmView();
+    this.model = model;
+    this.view.onBack = () => {
+      if (this.model) {
+        this.model.stopTimer();
+      }
+      Application.showGreeting();
+    };
+  }
+}
 
-modalConfirm.onBack = () => {
-  changeScreen(greeting());
-};
-
-export default () => modalConfirm;
+export default ModalConfirm;
