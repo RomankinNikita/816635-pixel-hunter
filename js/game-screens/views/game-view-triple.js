@@ -3,11 +3,25 @@ import getGameTemplate from './get-game-template.js';
 import {
   Settings,
   AnswerValue,
-  testGame
+  gameData
 } from '../../data/data.js';
-import {
-  checkThirdGameTypeAnswer
-} from '../../data/game.js';
+
+const TYPE_PAINT = `paint`;
+
+const checkThirdGameTypeAnswer = (state) => {
+  const paintIndexArr = [];
+  const photoIndexArr = [];
+  gameData[state.question].answers.forEach((it, index) => {
+    if (it.answer === TYPE_PAINT) {
+      paintIndexArr.push(index);
+    } else {
+      photoIndexArr.push(index);
+    }
+  });
+  const currentIndex = paintIndexArr.length < photoIndexArr.length ? paintIndexArr[0] : photoIndexArr[0];
+  return currentIndex;
+};
+
 
 export default class GameScreenView extends AbstractView {
   constructor(state) {
@@ -28,7 +42,7 @@ export default class GameScreenView extends AbstractView {
     gameContentForm.addEventListener(`click`, (evt) => {
       if (evt.target.tagName === `IMG`) {
         const currentIndex = checkThirdGameTypeAnswer(this.state);
-        let answer = (evt.target.src === testGame[this.state.question].answers[currentIndex].content) ? AnswerValue.CORRECT : AnswerValue.WRONG;
+        let answer = (evt.target.src === gameData[this.state.question].answers[currentIndex].content) ? AnswerValue.CORRECT : AnswerValue.WRONG;
         if (answer === AnswerValue.CORRECT) {
           if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
             answer = AnswerValue.FAST;

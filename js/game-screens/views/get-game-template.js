@@ -2,7 +2,7 @@ import header from '../header.js';
 import answerIndicator from '../../stats/answer-indicator';
 import {
   frameSize,
-  testGame,
+  gameData,
   GameType
 } from '../../data/data.js';
 import {
@@ -21,7 +21,7 @@ const ONE_QUESTIONS_LENGTH = 1;
 const THREE_QUESTIONS_LENGTH = 3;
 
 export const getViewType = (state) => {
-  const viewType = GameTypes[testGame[state.question].type];
+  const viewType = GameTypes[gameData[state.question].type];
   return viewType;
 };
 
@@ -41,12 +41,12 @@ const getGameOption = (state, questions) => {
   };
 
   const getTemplate = (index) => {
-    const frame = frameSize[testGame[state.question].type];
-    const image = testGame[state.question].answers[index].size;
+    const frame = frameSize[gameData[state.question].type];
+    const image = gameData[state.question].answers[index].size;
     const resizedSize = resize(frame, image);
 
     return `<div class="game__option">
-    <img src="${testGame[state.question].answers[index].content}" alt="Option 1" width="${resizedSize.width}" height="${resizedSize.height}">
+    <img src="${gameData[state.question].answers[index].content}" alt="Option 1" width="${resizedSize.width}" height="${resizedSize.height}">
     ${getLabel(index, questions)}
   </div>`;
   };
@@ -55,13 +55,13 @@ const getGameOption = (state, questions) => {
 };
 
 const getGameTemplate = (state) => {
-  const gameContentWide = testGame[state.question].answers.length === ONE_QUESTIONS_LENGTH ? ` game__content--wide` : ``;
+  const gameContentWide = gameData[state.question].answers.length === ONE_QUESTIONS_LENGTH ? ` game__content--wide` : ``;
 
   return `${header(state)}
   <section class="game">
-  <p class="game__task">${testGame[state.question].task}</p>
+  <p class="game__task">${gameData[state.question].task}</p>
   <form class="game__content${gameContentWide}">
-    ${getGameOption(state, testGame[state.question].answers.length)}
+    ${getGameOption(state, gameData[state.question].answers.length)}
   </form>
   ${answerIndicator(state)}
   </section>`;

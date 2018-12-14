@@ -16,6 +16,15 @@
   background-size: contain;
 }
 
+.intro::after {
+  content: "Загрузка";
+  font-size: 50px;
+  color: red;
+  position: absolute;
+  top: 230px;
+  left: 330px;
+}
+
 .intro__asterisk {
   position: absolute;
   top: 290px;
@@ -37,4 +46,28 @@
   position: absolute;
   right: 0;
   top: 0;
+}
+
+.loading__spin {
+  display: block;
+  width: 76px;
+  height: 76px;
+  animation-name: spin;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-delay: 0;
+  animation-play-state: running;
+  animation-fill-mode: forwards;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }

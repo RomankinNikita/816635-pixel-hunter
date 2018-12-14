@@ -101,7 +101,7 @@ export const frameSize = {
   }
 };
 
-export const testGame = {
+export const gameData = {
   '1': {
     type: GameType.DOUBLE,
     task: `Угадайте для каждого изображения фото или рисунок?`,

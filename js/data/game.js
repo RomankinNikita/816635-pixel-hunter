@@ -2,10 +2,7 @@ import {
   Settings,
   AnswerValue,
   AnswerPoint,
-  testGame
 } from './data.js';
-
-const TYPE_PAINT = `paint`;
 
 // Подсчет очков
 export const calculatePoints = (answers, lives) => {
@@ -75,18 +72,4 @@ export const getNextState = (state, answer) => {
   });
   state = setTime(state, Settings.TIME_FOR_QUESTION);
   return state;
-};
-
-export const checkThirdGameTypeAnswer = (state) => {
-  const paintIndexArr = [];
-  const photoIndexArr = [];
-  testGame[state.question].answers.forEach((it, index) => {
-    if (it.answer === TYPE_PAINT) {
-      paintIndexArr.push(index);
-    } else {
-      photoIndexArr.push(index);
-    }
-  });
-  const currentIndex = paintIndexArr.length < photoIndexArr.length ? paintIndexArr[0] : photoIndexArr[0];
-  return currentIndex;
 };
