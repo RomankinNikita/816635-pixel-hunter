@@ -16,14 +16,15 @@
   background-size: contain;
 }
 
-.crossfade{
+.crossfade {
   display: block;
   position: absolute;
-  transition: opacity 2s;
-};
-.crossfade-no-opacity{
+  transition: opacity 3s;
+}
+
+.crossfade-no-opacity {
   opacity: 0;
-};
+}
 
 .intro::after {
   content: "Загрузка";
