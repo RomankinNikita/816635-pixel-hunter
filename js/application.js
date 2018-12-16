@@ -29,8 +29,7 @@ const loadImage = (url) => {
 const onCrossfade = (intro) => {
   return new Promise((resolve) => {
     intro.view.crossfade();
-    const elem = intro.view.element.querySelector(`.crossfade`);
-    elem.ontransitionend = () => resolve();
+    window.ontransitionend = () => resolve(`a`);
   });
 };
 
