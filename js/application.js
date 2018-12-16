@@ -26,6 +26,14 @@ const loadImage = (url) => {
   });
 };
 
+const onCrossfade = (intro) => {
+  return new Promise((resolve) => {
+    intro.view.crossfade();
+    const elem = intro.view.element.querySelector(`.crossfade`);
+    elem.ontransitionend = () => resolve();
+  });
+};
+
 let gameData;
 
 export default class Application {
@@ -42,6 +50,7 @@ export default class Application {
     then((questions) => [].concat(...Object.values(questions).map((it) => it.answers))).
     then((answers) => answers.map((it) => loadImage(it.content))).
     then((imagePromises) => Promise.all(imagePromises)).
+    then(() => onCrossfade(introScreen)).
     then(() => Application.showGreeting()).
     catch((error) => showModal(new ModalError(error)));
   }
