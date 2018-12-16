@@ -7,16 +7,26 @@ import IntroScreen from './intro/intro-screen.js';
 import RulesScreen from './rules/rules-screen.js';
 import {showModal} from './util.js';
 import ModalError from './modal/modal-error/modal-error.js';
+import adaptServerData from './data-adapter/data-adapter.js';
 
 const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
     return response.json();
   } else {
-    throw new Error(`${response.status}: ${response.statusText}`);
+    throw new Error(`${response.status}`);
   }
 };
 
-export let loadData;
+const loadImage = (url) => {
+  return new Promise((onLoad, onError) => {
+    const image = new Image();
+    image.onload = () => onLoad(image);
+    image.onerror = () => onError(`Не удалось загрузить картнку: ${url}`);
+    image.src = url;
+  });
+};
+
+let gameData;
 
 export default class Application {
 
@@ -25,7 +35,15 @@ export default class Application {
     changeScreen(introScreen);
     window.fetch(`https://es.dump.academy/pixel-hunter/questions`).
     then(checkStatus).
-    then((data) => {loadData = data; console.log(loadData)}).
+    then((data) => {
+      gameData = adaptServerData(data);
+      return gameData;
+    }).
+    then((questions) => {
+      console.log(Object.values(questions).map((it) => it.answers));
+    }).
+    // then((imagePromises) => Promise.all(imagePromises)).
+    // then(() => Application.showGreeting()).
     catch((error) => showModal(new ModalError(error)));
   }
 
@@ -40,7 +58,7 @@ export default class Application {
   }
 
   static showGame(state) {
-    const model = new GameModel(state);
+    const model = new GameModel(state, gameData);
     const gameScreen = new GameScreen(model);
     gameScreen.startGame();
     changeScreen(gameScreen);

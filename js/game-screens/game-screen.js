@@ -13,8 +13,9 @@ class GameScreen {
   }
 
   startGame() {
-    const View = getViewType(this.model._state);
-    this.view = new View(this.model._state);
+    const View = getViewType(this.model._state, this.model.data);
+
+    this.view = new View(this.model._state, this.model.data);
 
     this.view.onBackClick = () => {
       showModal(new ModalConfirm(this.model));
