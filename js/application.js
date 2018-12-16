@@ -21,7 +21,7 @@ const loadImage = (url) => {
   return new Promise((onLoad, onError) => {
     const image = new Image();
     image.onload = () => onLoad(image);
-    image.onerror = () => onError(`Не удалось загрузить картнку: ${url}`);
+    image.onerror = () => onError(`Не удалось загрузить картинку: ${url}`);
     image.src = url;
   });
 };
@@ -39,11 +39,10 @@ export default class Application {
       gameData = adaptServerData(data);
       return gameData;
     }).
-    then((questions) => {
-      console.log(Object.values(questions).map((it) => it.answers));
-    }).
-    // then((imagePromises) => Promise.all(imagePromises)).
-    // then(() => Application.showGreeting()).
+    then((questions) => [].concat(...Object.values(questions).map((it) => it.answers))).
+    then((answers) => answers.map((it) => loadImage(it.content))).
+    then((imagePromises) => Promise.all(imagePromises)).
+    then(() => Application.showGreeting()).
     catch((error) => showModal(new ModalError(error)));
   }
 
