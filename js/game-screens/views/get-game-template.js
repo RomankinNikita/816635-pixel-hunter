@@ -2,7 +2,6 @@ import header from '../header.js';
 import answerIndicator from '../../stats/answer-indicator';
 import {
   frameSize,
-  testGame,
   GameType
 } from '../../data/data.js';
 import {
@@ -20,12 +19,12 @@ const GameTypes = {
 const ONE_QUESTIONS_LENGTH = 1;
 const THREE_QUESTIONS_LENGTH = 3;
 
-export const getViewType = (state) => {
-  const viewType = GameTypes[testGame[state.question].type];
+export const getViewType = (state, data) => {
+  const viewType = GameTypes[data[state.question].type];
   return viewType;
 };
 
-const getGameOption = (state, questions) => {
+const getGameOption = (state, data, questions) => {
   const getLabel = (index, questionsLength) => {
     if (questionsLength !== THREE_QUESTIONS_LENGTH) {
       return `<label class="game__answer game__answer--photo">
@@ -41,12 +40,12 @@ const getGameOption = (state, questions) => {
   };
 
   const getTemplate = (index) => {
-    const frame = frameSize[testGame[state.question].type];
-    const image = testGame[state.question].answers[index].size;
+    const frame = frameSize[data[state.question].type];
+    const image = data[state.question].answers[index].size;
     const resizedSize = resize(frame, image);
 
     return `<div class="game__option">
-    <img src="${testGame[state.question].answers[index].content}" alt="Option 1" width="${resizedSize.width}" height="${resizedSize.height}">
+    <img src="${data[state.question].answers[index].content}" alt="Option 1" width="${resizedSize.width}" height="${resizedSize.height}">
     ${getLabel(index, questions)}
   </div>`;
   };
@@ -54,14 +53,14 @@ const getGameOption = (state, questions) => {
   return [...Array(questions)].map((it, i) => getTemplate(i)).join(``);
 };
 
-const getGameTemplate = (state) => {
-  const gameContentWide = testGame[state.question].answers.length === ONE_QUESTIONS_LENGTH ? ` game__content--wide` : ``;
+const getGameTemplate = (state, data) => {
+  const gameContentWide = data[state.question].answers.length === ONE_QUESTIONS_LENGTH ? ` game__content--wide` : ``;
 
   return `${header(state)}
   <section class="game">
-  <p class="game__task">${testGame[state.question].task}</p>
+  <p class="game__task">${data[state.question].task}</p>
   <form class="game__content${gameContentWide}">
-    ${getGameOption(state, testGame[state.question].answers.length)}
+    ${getGameOption(state, data, data[state.question].answers.length)}
   </form>
   ${answerIndicator(state)}
   </section>`;

@@ -3,18 +3,18 @@ import getGameTemplate from './get-game-template.js';
 import {
   Settings,
   AnswerValue,
-  testGame
 } from '../../data/data.js';
 
 export default class GameScreenView extends AbstractView {
-  constructor(state) {
+  constructor(state, data) {
     super();
     this.state = state;
+    this.data = data;
     this.time = this.state.time;
   }
 
   get template() {
-    return getGameTemplate(this.state);
+    return getGameTemplate(this.state, this.data);
   }
 
   bind() {
@@ -25,7 +25,7 @@ export default class GameScreenView extends AbstractView {
     gameContentForm.addEventListener(`click`, (evt) => {
       const target = evt.target;
       if (target.type === `radio`) {
-        let answer = (target.value === testGame[this.state.question].answers[0].answer) ? AnswerValue.CORRECT : AnswerValue.WRONG;
+        let answer = (target.value === this.data[this.state.question].answers[0].answer) ? AnswerValue.CORRECT : AnswerValue.WRONG;
         if (answer === AnswerValue.CORRECT) {
           if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
             answer = AnswerValue.FAST;

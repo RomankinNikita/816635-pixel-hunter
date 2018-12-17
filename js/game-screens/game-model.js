@@ -8,8 +8,9 @@ import {
 import Application from '../application.js';
 
 class GameModel {
-  constructor(state) {
+  constructor(state, data) {
     this._state = state;
+    this.data = data;
     this.timer = null;
   }
 
@@ -21,7 +22,7 @@ class GameModel {
   nextScreen(answer) {
     const state = this.nextState(answer);
     if (state.question <= Settings.NUMBER_OF_GAME_LEVELS && state.lives >= Settings.MIN_LIVES) {
-      Application.showGame(state);
+      Application.showGame(state, this.data);
     } else {
       Application.showStats(this.nextState(answer));
     }

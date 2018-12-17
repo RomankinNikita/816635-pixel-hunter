@@ -3,18 +3,18 @@ import getGameTemplate from './get-game-template.js';
 import {
   Settings,
   AnswerValue,
-  testGame
 } from '../../data/data.js';
 
 export default class GameScreenView extends AbstractView {
-  constructor(state) {
+  constructor(state, data) {
     super();
     this.state = state;
+    this.data = data;
     this.time = this.state.time;
   }
 
   get template() {
-    return getGameTemplate(this.state);
+    return getGameTemplate(this.state, this.data);
   }
 
   bind() {
@@ -27,7 +27,7 @@ export default class GameScreenView extends AbstractView {
       if (target.type === `radio`) {
         const checkedInputs = gameContentForm.querySelectorAll(`input[type=radio]:checked`);
         if (checkedInputs.length === 2) {
-          let answer = ([...checkedInputs].every((it, i) => it.value === testGame[this.state.question].answers[i].answer)) ? AnswerValue.CORRECT : AnswerValue.WRONG;
+          let answer = ([...checkedInputs].every((it, i) => it.value === this.data[this.state.question].answers[i].answer)) ? AnswerValue.CORRECT : AnswerValue.WRONG;
           if (answer === AnswerValue.CORRECT) {
             if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
               answer = AnswerValue.FAST;
