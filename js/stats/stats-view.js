@@ -2,13 +2,13 @@ import AbstractView from '../abstract-view.js';
 import getStatsScreen from './get-stats-template.js';
 
 export default class StatsView extends AbstractView {
-  constructor(state) {
+  constructor(data) {
     super();
-    this.state = state;
+    this.data = data;
   }
 
   get template() {
-    return getStatsScreen(this.state);
+    return getStatsScreen(this.data);
   }
 
   bind() {

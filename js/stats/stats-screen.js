@@ -5,8 +5,8 @@ import {
 } from '../util.js';
 
 class StatsScreen {
-  constructor(state) {
-    this.view = new StatsView(state);
+  constructor(data) {
+    this.view = new StatsView(data);
     this.view.onBackClick = () => {
       showModal(new ModalConfirm());
     };
