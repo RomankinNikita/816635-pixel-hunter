@@ -29,7 +29,7 @@ const loadImage = (url) => {
 const onCrossfade = (intro) => {
   return new Promise((resolve) => {
     intro.view.crossfade();
-    window.ontransitionend = () => resolve(`a`);
+    window.ontransitionend = () => resolve();
   });
 };
 
@@ -39,7 +39,9 @@ export default class Application {
 
   static showIntro() {
     const introScreen = new IntroScreen();
+    const greetingScreen = new GreetingScreen();
     changeScreen(introScreen);
+    introScreen.view.show(greetingScreen);
     window.fetch(`https://es.dump.academy/pixel-hunter/questions`).
     then(checkStatus).
     then((data) => {

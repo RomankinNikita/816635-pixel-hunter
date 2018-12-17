@@ -2,7 +2,8 @@ import AbstractView from '../abstract-view.js';
 
 export default class GreetingView extends AbstractView {
   get template() {
-    return `<section class="greeting central--blur">
+    return `<section class="crossfade">
+    <div class="greeting central--blur">
     <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
     <div class="greeting__asterisk asterisk"><span class="visually-hidden">Я просто красивая звёздочка</span>*</div>
     <div class="greeting__challenge">
@@ -21,6 +22,7 @@ export default class GreetingView extends AbstractView {
         <use xlink:href="img/sprite.svg#arrow-right"></use>
       </svg>
     </button>
+    </div>
     </section>`;
   }
 
