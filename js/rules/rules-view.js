@@ -52,4 +52,9 @@ export default class RulesView extends AbstractView {
   onSubmit() {
 
   }
+
+  get name() {
+    const name = this.element.querySelector(`.rules__input`).value;
+    return name;
+  }
 }

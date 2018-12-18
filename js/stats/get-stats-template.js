@@ -48,23 +48,26 @@ const livesBonus = (state) => {
   return ``;
 };
 
-const getStatsScreen = (state) => {
-  const winTemplate = `<header class="header">
-<button class="back">
-  <span class="visually-hidden">Вернуться к началу</span>
-  <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
-    <use xlink:href="img/sprite.svg#arrow-left"></use>
-  </svg>
-  <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
-    <use xlink:href="img/sprite.svg#logo-small"></use>
-  </svg>
-</button>
-</header>
-<section class="result">
+const getStatsScreen = (data) => {
+  const header = `<header class="header">
+  <button class="back">
+    <span class="visually-hidden">Вернуться к началу</span>
+    <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
+      <use xlink:href="img/sprite.svg#arrow-left"></use>
+    </svg>
+    <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
+      <use xlink:href="img/sprite.svg#logo-small"></use>
+    </svg>
+  </button>
+  </header>`;
+
+  const getPlayerName = (name) => `<h1 class="result__title">Результаты игрока <u>${name}</u>:</h1>`;
+
+  const getWinTemplate = (state, index) => `<section class="result">
 <h2 class="result__title">Победа!</h2>
 <table class="result__table">
   <tr>
-    <td class="result__number">1.</td>
+    <td class="result__number">${index + 1}.</td>
     <td colspan="2">
     ${answerIndicator(state)}
     </td>
@@ -80,29 +83,29 @@ const getStatsScreen = (state) => {
 </table>
 </section>`;
 
-  const loseTemplate = `<header class="header">
-  <button class="back">
-    <span class="visually-hidden">Вернуться к началу</span>
-    <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
-      <use xlink:href="img/sprite.svg#arrow-left"></use>
-    </svg>
-    <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
-      <use xlink:href="img/sprite.svg#logo-small"></use>
-    </svg>
-  </button>
-  </header>
-  <section class="result">
+  const getLoseTemplate = (state, index) => `<section class="result">
   <h2 class="result__title">Поражение!</h2>
   <table class="result__table">
     <tr>
-      <td class="result__number">1.</td>
+      <td class="result__number">${index + 1}.</td>
       <td colspan="2">
       ${answerIndicator(state)}
       </td>
       <td class="result__total result__total--final">FAIL!</td>
-    </tr>`;
-  const template = (state.answers.length < Settings.NUMBER_OF_ANSWERS || state.lives < Settings.MIN_LIVES) ? loseTemplate : winTemplate;
-  return template;
+    </tr>
+  </table>
+  </section>`;
+
+  const getTemplateType = (state, ind) => {
+    const type = (state.answers.length < Settings.NUMBER_OF_ANSWERS || state.lives < Settings.MIN_LIVES) ? getLoseTemplate(state, ind) : getWinTemplate(state, ind);
+    return type;
+  };
+
+  const statsTemplate = data.map((it, i) => getTemplateType(it, i)).join(``);
+
+  const resTemplate = header.concat(getPlayerName(data[0].name), statsTemplate);
+
+  return resTemplate;
 };
 
 export default getStatsScreen;

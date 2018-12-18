@@ -12,10 +12,12 @@ export default class IntroView extends AbstractView {
 
   crossfade() {
     const mainElement = document.querySelector(`#main`);
-    const sectionCrossfades = mainElement.querySelectorAll(`.crossfade`);
-    sectionCrossfades.forEach((it) => {
-      it.classList.toggle(`crossfade-no-opacity`);
-    });
+    if (mainElement.children.length > 1) {
+      const sectionCrossfades = mainElement.querySelectorAll(`.crossfade`);
+      sectionCrossfades.forEach((it) => {
+        it.classList.toggle(`crossfade-no-opacity`);
+      });
+    }
   }
 
   bind() {
@@ -27,14 +29,8 @@ export default class IntroView extends AbstractView {
 
   }
 
-  show(elem) {
-    elem.view.onClick = null;
+  show() {
     const mainElement = document.querySelector(`#main`);
-    mainElement.appendChild(elem.view.element);
-    this.hide(elem);
-  }
-
-  hide(it) {
-    it.view.element.querySelector(`.crossfade`).classList.add(`crossfade-no-opacity`);
+    mainElement.appendChild(this.element);
   }
 }

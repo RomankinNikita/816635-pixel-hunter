@@ -7,24 +7,7 @@ import IntroScreen from './intro/intro-screen.js';
 import RulesScreen from './rules/rules-screen.js';
 import {showModal} from './util.js';
 import ModalError from './modal/modal-error/modal-error.js';
-import adaptServerData from './data-adapter/data-adapter.js';
-
-const checkStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
-    return response.json();
-  } else {
-    throw new Error(`${response.status}`);
-  }
-};
-
-const loadImage = (url) => {
-  return new Promise((onLoad, onError) => {
-    const image = new Image();
-    image.onload = () => onLoad(image);
-    image.onerror = () => onError(`Не удалось загрузить картинку: ${url}`);
-    image.src = url;
-  });
-};
+import Loader from './loader.js';
 
 const onCrossfade = (intro) => {
   return new Promise((resolve) => {
@@ -33,24 +16,14 @@ const onCrossfade = (intro) => {
   });
 };
 
-let gameData;
-
 export default class Application {
 
   static showIntro() {
     const introScreen = new IntroScreen();
     const greetingScreen = new GreetingScreen();
-    changeScreen(introScreen);
-    introScreen.view.show(greetingScreen);
-    window.fetch(`https://es.dump.academy/pixel-hunter/questions`).
-    then(checkStatus).
-    then((data) => {
-      gameData = adaptServerData(data);
-      return gameData;
-    }).
-    then((questions) => [].concat(...Object.values(questions).map((it) => it.answers))).
-    then((answers) => answers.map((it) => loadImage(it.content))).
-    then((imagePromises) => Promise.all(imagePromises)).
+    greetingScreen.view.show();
+    introScreen.view.show();
+    Loader.loadData().
     then(() => onCrossfade(introScreen)).
     then(() => Application.showGreeting()).
     catch((error) => showModal(new ModalError(error)));
@@ -66,16 +39,20 @@ export default class Application {
     changeScreen(rulesScreen);
   }
 
-  static showGame(state) {
-    const model = new GameModel(state, gameData);
+  static showGame(state, data, name) {
+    const model = new GameModel(state, data, name);
     const gameScreen = new GameScreen(model);
     gameScreen.startGame();
     changeScreen(gameScreen);
   }
 
-  static showStats(state) {
-    const statsScreen = new StatsScreen(state);
-    changeScreen(statsScreen);
+  static showStats(state, name) {
+    Loader.saveResults(state, name).
+    then(() => Loader.loadResults(name)).
+    then((data) => {
+      changeScreen(new StatsScreen(data));
+    }).
+    catch((error) => showModal(new ModalError(error)));
   }
 
 }
