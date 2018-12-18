@@ -7,7 +7,7 @@ import {
   showModal
 } from '../util.js';
 import Application from '../application.js';
-import {gameData} from '../loader.js';
+import {getGameData} from '../loader.js';
 
 class RulesScreen {
   constructor() {
@@ -18,7 +18,7 @@ class RulesScreen {
     this.view.onSubmit = (sbmtEvt) => {
       sbmtEvt.preventDefault();
       const name = this.view.name;
-      Application.showGame(initialState, gameData, name);
+      Application.showGame(initialState, getGameData(), name);
     };
   }
 }

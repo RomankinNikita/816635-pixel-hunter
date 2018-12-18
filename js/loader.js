@@ -24,7 +24,9 @@ const loadImage = (url) => {
   });
 };
 
-export let gameData;
+let gameData;
+
+export const getGameData = () => gameData;
 
 export default class Loader {
   static loadData() {

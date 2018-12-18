@@ -36,7 +36,7 @@ export default class GreetingView extends AbstractView {
   }
 
   show() {
-    this.onClick = null;
+    this.onClick = () => {};
     const mainElement = document.querySelector(`#main`);
     mainElement.appendChild(this.element);
     this.element.querySelector(`.crossfade`).classList.add(`crossfade-no-opacity`);
