@@ -16,6 +16,7 @@ class GameScreen {
     const View = getViewType(this.model._state, this.model.data);
 
     this.view = new View(this.model._state, this.model.data);
+    this.view.activateDebugMode();
 
     this.view.onBackClick = () => {
       showModal(new ModalConfirm(this.model));

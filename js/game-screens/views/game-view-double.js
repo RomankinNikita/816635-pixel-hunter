@@ -4,6 +4,7 @@ import {
   Settings,
   AnswerValue,
 } from '../../data/data.js';
+import {getDebugState, DEBUG_STYLE} from '../../data/settings.js';
 
 export default class GameScreenView extends AbstractView {
   constructor(state, data) {
@@ -27,7 +28,7 @@ export default class GameScreenView extends AbstractView {
       if (target.type === `radio`) {
         const checkedInputs = gameContentForm.querySelectorAll(`input[type=radio]:checked`);
         if (checkedInputs.length === 2) {
-          let answer = ([...checkedInputs].every((it, i) => it.value === this.data[this.state.question].answers[i].answer)) ? AnswerValue.CORRECT : AnswerValue.WRONG;
+          let answer = ([...checkedInputs].every((it, i) => it.value === this.getRightAnswer(i))) ? AnswerValue.CORRECT : AnswerValue.WRONG;
           if (answer === AnswerValue.CORRECT) {
             if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
               answer = AnswerValue.FAST;
@@ -40,6 +41,19 @@ export default class GameScreenView extends AbstractView {
         }
       }
     });
+  }
+
+  getRightAnswer(i) {
+    return this.data[this.state.question].answers[i].answer;
+  }
+
+  activateDebugMode() {
+    if (getDebugState()) {
+      const gameOptions = this.element.querySelectorAll(`.game__option`);
+      gameOptions.forEach((option, i) => {
+        option.querySelector(`input[value=${this.getRightAnswer(i)}]`).parentElement.querySelector(`span`).style = DEBUG_STYLE;
+      });
+    }
   }
 
   onTick() {

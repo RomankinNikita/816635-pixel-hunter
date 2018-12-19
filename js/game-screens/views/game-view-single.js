@@ -4,6 +4,7 @@ import {
   Settings,
   AnswerValue,
 } from '../../data/data.js';
+import {getDebugState, DEBUG_STYLE} from '../../data/settings.js';
 
 export default class GameScreenView extends AbstractView {
   constructor(state, data) {
@@ -25,7 +26,7 @@ export default class GameScreenView extends AbstractView {
     gameContentForm.addEventListener(`click`, (evt) => {
       const target = evt.target;
       if (target.type === `radio`) {
-        let answer = (target.value === this.data[this.state.question].answers[0].answer) ? AnswerValue.CORRECT : AnswerValue.WRONG;
+        let answer = (target.value === this.getRightAnswer()) ? AnswerValue.CORRECT : AnswerValue.WRONG;
         if (answer === AnswerValue.CORRECT) {
           if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
             answer = AnswerValue.FAST;
@@ -37,6 +38,17 @@ export default class GameScreenView extends AbstractView {
         this.onAnswer(answer);
       }
     });
+  }
+
+  getRightAnswer() {
+    return this.data[this.state.question].answers[0].answer;
+  }
+
+  activateDebugMode() {
+    if (getDebugState()) {
+      const gameOption = this.element.querySelector(`.game__option`);
+      gameOption.querySelector(`input[value=${this.getRightAnswer()}]`).parentElement.querySelector(`span`).style = DEBUG_STYLE;
+    }
   }
 
   onTick() {

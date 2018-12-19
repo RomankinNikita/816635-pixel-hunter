@@ -4,6 +4,10 @@ import {
   Settings,
   AnswerValue,
 } from '../../data/data.js';
+import {
+  getDebugState,
+  DEBUG_STYLE
+} from '../../data/settings.js';
 
 const TYPE_PAINT = `paint`;
 
@@ -41,8 +45,7 @@ export default class GameScreenView extends AbstractView {
     const gameContentForm = this.element.querySelector(`.game__content`);
     gameContentForm.addEventListener(`click`, (evt) => {
       if (evt.target.tagName === `IMG`) {
-        const currentIndex = checkThirdGameTypeAnswer(this.state, this.data);
-        let answer = (evt.target.src === this.data[this.state.question].answers[currentIndex].content) ? AnswerValue.CORRECT : AnswerValue.WRONG;
+        let answer = (evt.target.src === this.data[this.state.question].answers[this.getRightAnswerIndex()].content) ? AnswerValue.CORRECT : AnswerValue.WRONG;
         if (answer === AnswerValue.CORRECT) {
           if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
             answer = AnswerValue.FAST;
@@ -54,6 +57,17 @@ export default class GameScreenView extends AbstractView {
         this.onAnswer(answer);
       }
     });
+  }
+
+  getRightAnswerIndex() {
+    return checkThirdGameTypeAnswer(this.state, this.data);
+  }
+
+  activateDebugMode() {
+    if (getDebugState()) {
+      const gameOptions = this.element.querySelectorAll(`.game__option`);
+      gameOptions[this.getRightAnswerIndex()].style = DEBUG_STYLE;
+    }
   }
 
   onTick() {
