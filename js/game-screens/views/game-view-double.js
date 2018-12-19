@@ -1,10 +1,15 @@
 import AbstractView from '../../abstract-view.js';
-import getGameTemplate from './get-game-template.js';
+import getGameTemplate, {setAnswerForTime} from './get-game-template.js';
 import {
   Settings,
   AnswerValue,
 } from '../../data/data.js';
-import {getDebugState, DEBUG_STYLE} from '../../data/settings.js';
+import {
+  getDebugState,
+  DEBUG_STYLE
+} from '../../data/settings.js';
+
+const ANSWER_NUMBER = 2;
 
 export default class GameScreenView extends AbstractView {
   constructor(state, data) {
@@ -18,31 +23,6 @@ export default class GameScreenView extends AbstractView {
     return getGameTemplate(this.state, this.data);
   }
 
-  bind() {
-    const backBtn = this.element.querySelector(`button.back`);
-    backBtn.addEventListener(`click`, this.onBackClick);
-
-    const gameContentForm = this.element.querySelector(`.game__content`);
-    gameContentForm.addEventListener(`click`, (evt) => {
-      const target = evt.target;
-      if (target.type === `radio`) {
-        const checkedInputs = gameContentForm.querySelectorAll(`input[type=radio]:checked`);
-        if (checkedInputs.length === 2) {
-          let answer = ([...checkedInputs].every((it, i) => it.value === this.getRightAnswer(i))) ? AnswerValue.CORRECT : AnswerValue.WRONG;
-          if (answer === AnswerValue.CORRECT) {
-            if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
-              answer = AnswerValue.FAST;
-            }
-            if (this.time < (Settings.TIME_FOR_QUESTION - Settings.SLOW_ANSWER_TIME)) {
-              answer = AnswerValue.SLOW;
-            }
-          }
-          this.onAnswer(answer);
-        }
-      }
-    });
-  }
-
   getRightAnswer(i) {
     return this.data[this.state.question].answers[i].answer;
   }
@@ -54,6 +34,24 @@ export default class GameScreenView extends AbstractView {
         option.querySelector(`input[value=${this.getRightAnswer(i)}]`).parentElement.querySelector(`span`).style = DEBUG_STYLE;
       });
     }
+  }
+
+  bind() {
+    const backBtn = this.element.querySelector(`button.back`);
+    backBtn.addEventListener(`click`, this.onBackClick);
+
+    const gameContentForm = this.element.querySelector(`.game__content`);
+    gameContentForm.addEventListener(`click`, (evt) => {
+      const target = evt.target;
+      if (target.type === `radio`) {
+        const checkedInputs = gameContentForm.querySelectorAll(`input[type=radio]:checked`);
+        if (checkedInputs.length === ANSWER_NUMBER) {
+          let answer = ([...checkedInputs].every((it, i) => it.value === this.getRightAnswer(i))) ? AnswerValue.CORRECT : AnswerValue.WRONG;
+          answer = setAnswerForTime(this.time, answer);
+          this.onAnswer(answer);
+        }
+      }
+    });
   }
 
   onTick() {

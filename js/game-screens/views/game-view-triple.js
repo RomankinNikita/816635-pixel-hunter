@@ -1,5 +1,7 @@
 import AbstractView from '../../abstract-view.js';
-import getGameTemplate from './get-game-template.js';
+import getGameTemplate, {
+  setAnswerForTime
+} from './get-game-template.js';
 import {
   Settings,
   AnswerValue,
@@ -10,19 +12,19 @@ import {
 } from '../../data/settings.js';
 
 const TYPE_PAINT = `paint`;
+const TYPE_PHOTO = `photo`;
 
 const checkThirdGameTypeAnswer = (state, data) => {
-  const paintIndexArr = [];
-  const photoIndexArr = [];
-  data[state.question].answers.forEach((it, index) => {
-    if (it.answer === TYPE_PAINT) {
-      paintIndexArr.push(index);
-    } else {
-      photoIndexArr.push(index);
-    }
-  });
-  const currentIndex = paintIndexArr.length < photoIndexArr.length ? paintIndexArr[0] : photoIndexArr[0];
-  return currentIndex;
+  const answers = data[state.question].answers;
+  const paints = answers.filter((it) => it.answer === TYPE_PAINT);
+
+  const setIndex = (answer) => {
+    return answers.findIndex((it) => it.answer === answer);
+  };
+
+  const resIndex = paints.length === 1 ? setIndex(TYPE_PAINT) : setIndex(TYPE_PHOTO);
+
+  return resIndex;
 };
 
 
@@ -38,27 +40,6 @@ export default class GameScreenView extends AbstractView {
     return getGameTemplate(this.state, this.data);
   }
 
-  bind() {
-    const backBtn = this.element.querySelector(`button.back`);
-    backBtn.addEventListener(`click`, this.onBackClick);
-
-    const gameContentForm = this.element.querySelector(`.game__content`);
-    gameContentForm.addEventListener(`click`, (evt) => {
-      if (evt.target.tagName === `IMG`) {
-        let answer = (evt.target.src === this.data[this.state.question].answers[this.getRightAnswerIndex()].content) ? AnswerValue.CORRECT : AnswerValue.WRONG;
-        if (answer === AnswerValue.CORRECT) {
-          if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
-            answer = AnswerValue.FAST;
-          }
-          if (this.time < (Settings.TIME_FOR_QUESTION - Settings.SLOW_ANSWER_TIME)) {
-            answer = AnswerValue.SLOW;
-          }
-        }
-        this.onAnswer(answer);
-      }
-    });
-  }
-
   getRightAnswerIndex() {
     return checkThirdGameTypeAnswer(this.state, this.data);
   }
@@ -68,6 +49,20 @@ export default class GameScreenView extends AbstractView {
       const gameOptions = this.element.querySelectorAll(`.game__option`);
       gameOptions[this.getRightAnswerIndex()].style = DEBUG_STYLE;
     }
+  }
+
+  bind() {
+    const backBtn = this.element.querySelector(`button.back`);
+    backBtn.addEventListener(`click`, this.onBackClick);
+
+    const gameContentForm = this.element.querySelector(`.game__content`);
+    gameContentForm.addEventListener(`click`, (evt) => {
+      if (evt.target.tagName === `IMG`) {
+        let answer = (evt.target.src === this.data[this.state.question].answers[this.getRightAnswerIndex()].content) ? AnswerValue.CORRECT : AnswerValue.WRONG;
+        answer = setAnswerForTime(this.time, answer);
+        this.onAnswer(answer);
+      }
+    });
   }
 
   onTick() {

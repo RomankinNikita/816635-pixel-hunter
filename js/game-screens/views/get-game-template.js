@@ -1,8 +1,9 @@
 import header from '../header.js';
 import answerIndicator from '../../stats/answer-indicator';
 import {
-  frameSize,
-  GameType
+  GameType,
+  Settings,
+  AnswerValue
 } from '../../data/data.js';
 import {
   resize
@@ -18,11 +19,6 @@ const GameTypes = {
 };
 const ONE_QUESTIONS_LENGTH = 1;
 const THREE_QUESTIONS_LENGTH = 3;
-
-export const getViewType = (state, data) => {
-  const viewType = GameTypes[data[state.question].type];
-  return viewType;
-};
 
 const getGameOption = (state, data, questions) => {
   const getLabel = (index, questionsLength) => {
@@ -40,12 +36,8 @@ const getGameOption = (state, data, questions) => {
   };
 
   const getTemplate = (index) => {
-    const frame = frameSize[data[state.question].type];
-    const image = data[state.question].answers[index].size;
-    const resizedSize = resize(frame, image);
-
     return `<div class="game__option">
-    <img src="${data[state.question].answers[index].content}" alt="Option 1" width="${resizedSize.width}" height="${resizedSize.height}">
+    <img src="${data[state.question].answers[index].content}" alt="Option 1" width="100" height="100">
     ${getLabel(index, questions)}
   </div>`;
   };
@@ -64,6 +56,39 @@ const getGameTemplate = (state, data) => {
   </form>
   ${answerIndicator(state)}
   </section>`;
+};
+
+export const getViewType = (state, data) => {
+  const viewType = GameTypes[data[state.question].type];
+  return viewType;
+};
+
+export const resizeImages = (element) => {
+  element.querySelectorAll(`.game__option img`).forEach((img) => {
+    img.addEventListener(`load`, () => {
+      const frame = {
+        width: img.parentElement.clientWidth,
+        height: img.parentElement.clientHeight
+      };
+      const image = {
+        width: img.naturalWidth,
+        height: img.naturalHeight
+      };
+      const resizedSize = resize(frame, image);
+      img.style.width = resizedSize.width + `px`;
+      img.style.height = resizedSize.height + `px`;
+    });
+  });
+};
+
+export const setAnswerForTime = (time, answer) => {
+  if (time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
+    answer = AnswerValue.FAST;
+  }
+  if (time < (Settings.TIME_FOR_QUESTION - Settings.SLOW_ANSWER_TIME)) {
+    answer = AnswerValue.SLOW;
+  }
+  return answer;
 };
 
 export default getGameTemplate;

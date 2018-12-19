@@ -48,18 +48,3 @@ export const GameType = {
   DOUBLE: `double`,
   TRIPLE: `triple`
 };
-
-export const frameSize = {
-  [GameType.DOUBLE]: {
-    width: 468,
-    height: 458
-  },
-  [GameType.SINGLE]: {
-    width: 705,
-    height: 455
-  },
-  [GameType.TRIPLE]: {
-    width: 304,
-    height: 455
-  }
-};
