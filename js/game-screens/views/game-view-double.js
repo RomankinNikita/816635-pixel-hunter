@@ -23,8 +23,8 @@ export default class GameScreenView extends AbstractView {
     return getGameTemplate(this.state, this.data);
   }
 
-  getRightAnswer(i) {
-    return this.data[this.state.question].answers[i].answer;
+  getRightAnswer(index) {
+    return this.data[this.state.question].answers[index].answer;
   }
 
   activateDebugMode() {
