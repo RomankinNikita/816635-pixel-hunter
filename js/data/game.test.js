@@ -1,4 +1,3 @@
-/* eslint-disable max-nested-callbacks */
 import {
   assert
 } from 'chai';
@@ -25,31 +24,31 @@ const noMistakesAnswers = [...testTenAnswers];
 const nineAnswersTwoMistakes = [...new Array(7).fill(AnswerValue.CORRECT), ...new Array(2).fill(AnswerValue.WRONG)];
 const answersMoreQuestions = new Array(11).fill(AnswerValue.CORRECT);
 
-describe(`Calculate Points`, () => {
-  describe(`should check if data correct`, () => {
-    it(`the number of lives must match the number of errors`, () => {
-      assert.throws(() => calculatePoints(threeMistakesAnswers, 1), /the number of lives must match the number of errors/);
-      assert.throws(() => calculatePoints(twoMistakesAnswers, 0), /the number of lives must match the number of errors/);
-      assert.throws(() => calculatePoints(noMistakesAnswers, 2), /the number of lives must match the number of errors/);
-      assert.throws(() => calculatePoints(oneMistakesAnswers, 3), /the number of lives must match the number of errors/);
-    });
-    it(`game not ended`, () => {
-      assert.throws(() => calculatePoints(nineAnswersTwoMistakes, 1), /game not ended/);
-    });
-    it(`answers more than questions`, () => {
-      assert.throws(() => calculatePoints(answersMoreQuestions, 3), /answers more than questions/);
-    });
+
+describe(`should check if data correct`, () => {
+  it(`the number of lives must match the number of errors`, () => {
+    assert.throws(() => calculatePoints(threeMistakesAnswers, 1), /the number of lives must match the number of errors/);
+    assert.throws(() => calculatePoints(twoMistakesAnswers, 0), /the number of lives must match the number of errors/);
+    assert.throws(() => calculatePoints(noMistakesAnswers, 2), /the number of lives must match the number of errors/);
+    assert.throws(() => calculatePoints(oneMistakesAnswers, 3), /the number of lives must match the number of errors/);
   });
-  describe(`should calculate points`, () => {
-    it(`if all answers are slow and no lives left should return 350 points`, () => {
-      assert.equal(calculatePoints(testMinAnswers, 0), 350);
-    });
-    it(`if all answers are usual and all three lives are left should return 1150 points`, () => {
-      assert.equal(calculatePoints(testTenAnswers, 3), 1150);
-    });
-    it(`if all answers are fast and all three lives are left should return 1650 points`, () => {
-      assert.equal(calculatePoints(testMaxAnswers, 3), 1650);
-    });
+  it(`game not ended`, () => {
+    assert.throws(() => calculatePoints(nineAnswersTwoMistakes, 1), /game not ended/);
+  });
+  it(`answers more than questions`, () => {
+    assert.throws(() => calculatePoints(answersMoreQuestions, 3), /answers more than questions/);
+  });
+});
+
+describe(`should calculate points`, () => {
+  it(`if all answers are slow and no lives left should return 350 points`, () => {
+    assert.equal(calculatePoints(testMinAnswers, 0), 350);
+  });
+  it(`if all answers are usual and all three lives are left should return 1150 points`, () => {
+    assert.equal(calculatePoints(testTenAnswers, 3), 1150);
+  });
+  it(`if all answers are fast and all three lives are left should return 1650 points`, () => {
+    assert.equal(calculatePoints(testMaxAnswers, 3), 1650);
   });
 });
 
