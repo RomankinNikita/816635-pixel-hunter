@@ -1,4 +1,5 @@
 import AbstractView from '../abstract-view.js';
+import {showElement} from '../util.js';
 
 export default class GreetingView extends AbstractView {
   get template() {
@@ -24,6 +25,12 @@ export default class GreetingView extends AbstractView {
     </button>
     </div>
     </section>`;
+  }
+
+  crossfadeSwitch(elem) {
+    elem.view.onClick = () => {};
+    showElement(elem);
+    elem.view.element.querySelector(`.crossfade`).classList.add(`crossfade-no-opacity`);
   }
 
   bind() {

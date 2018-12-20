@@ -9,7 +9,6 @@ import IntroScreen from './intro/intro-screen.js';
 import RulesScreen from './rules/rules-screen.js';
 import {
   showElement,
-  crossfadeSwitch
 } from './util.js';
 import ModalError from './modal/modal-error/modal-error.js';
 import Loader from './loader.js';
@@ -26,7 +25,7 @@ export default class Application {
   static showIntro() {
     const introScreen = new IntroScreen();
     const greetingScreen = new GreetingScreen();
-    crossfadeSwitch(greetingScreen);
+    greetingScreen.crossfadeSwitch();
     showElement(introScreen);
     Loader.loadData().
     then(() => onCrossfade(introScreen)).

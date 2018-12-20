@@ -8,9 +8,9 @@ import {
   AnswerPoint
 } from '../data/data.js';
 
-const GameStatus = {
-  WIN_STATUS: `Победа!`,
-  LOSE_STATUS: `Поражение!`
+const GameResult = {
+  WIN: `Победа!`,
+  LOSE: `Поражение!`
 };
 
 const fastBonus = (state) => {
@@ -85,7 +85,7 @@ const getStatsScreen = (data) => {
 </section>`;
 
   const getTemplateType = (state, ind) => {
-    const type = (state.answers.length < Settings.NUMBER_OF_ANSWERS || state.lives < Settings.MIN_LIVES) ? getResultTemplate(state, ind, false, GameStatus.LOSE_STATUS) : getResultTemplate(state, ind, true, GameStatus.WIN_STATUS);
+    const type = (state.answers.length < Settings.NUMBER_OF_ANSWERS || state.lives < Settings.MIN_LIVES) ? getResultTemplate(state, ind, false, GameResult.LOSE) : getResultTemplate(state, ind, true, GameResult.WIN);
     return type;
   };
 

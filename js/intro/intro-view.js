@@ -20,11 +20,6 @@ export default class IntroView extends AbstractView {
     }
   }
 
-  show() {
-    const mainElement = document.querySelector(`#main`);
-    mainElement.appendChild(this.element);
-  }
-
   bind() {
     const startButton = this.element.querySelector(`.intro__asterisk`);
     startButton.addEventListener(`click`, this.onClick);

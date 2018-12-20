@@ -82,6 +82,9 @@ export const resizeImages = (element) => {
 };
 
 export const setAnswerForTime = (time, answer) => {
+  if (answer === AnswerValue.WRONG) {
+    return AnswerValue.WRONG;
+  }
   if (time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
     answer = AnswerValue.FAST;
   }
