@@ -8,6 +8,10 @@ class GreetingScreen {
       Application.showRules();
     };
   }
+
+  crossfadeSwitch() {
+    this.view.crossfadeSwitch(this);
+  }
 }
 
 export default GreetingScreen;

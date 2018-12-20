@@ -1,3 +1,5 @@
+import {Settings} from '../data/data.js';
+
 export default (state) => `<header class="header">
 <button class="back">
   <span class="visually-hidden">Вернуться к началу</span>
@@ -10,7 +12,7 @@ export default (state) => `<header class="header">
 </button>
 <div class="game__timer">${state.time}</div>
 <div class="game__lives">
-${new Array(3 - state.lives).fill(`<img src="img/heart__empty.svg" class="game__heart" alt=" Missed Life" width="31" height="27">`).join(``)}
+${new Array(Settings.MAX_LIVES - state.lives).fill(`<img src="img/heart__empty.svg" class="game__heart" alt=" Missed Life" width="31" height="27">`).join(``)}
 ${new Array(state.lives).fill(`  <img src="img/heart__full.svg" class="game__heart" alt="Life" width="31" height="27">`).join(``)}
 </div>
 </header>`;

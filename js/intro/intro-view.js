@@ -28,9 +28,4 @@ export default class IntroView extends AbstractView {
   onClick() {
 
   }
-
-  show() {
-    const mainElement = document.querySelector(`#main`);
-    mainElement.appendChild(this.element);
-  }
 }

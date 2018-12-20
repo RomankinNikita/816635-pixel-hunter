@@ -1,9 +1,10 @@
 import {
-  getViewType
+  getViewType,
+  resizeImages
 } from './views/get-game-template.js';
 import ModalConfirm from '../modal/modal-confirm/modal-confirm.js';
 import {
-  showModal
+  showElement
 } from '../util.js';
 
 class GameScreen {
@@ -16,10 +17,11 @@ class GameScreen {
     const View = getViewType(this.model._state, this.model.data);
 
     this.view = new View(this.model._state, this.model.data);
+    resizeImages(this.view.element);
     this.view.activateDebugMode();
 
     this.view.onBackClick = () => {
-      showModal(new ModalConfirm(this.model));
+      showElement(new ModalConfirm(this.model));
     };
 
     this.view.onAnswer = (answer) => {

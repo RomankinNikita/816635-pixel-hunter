@@ -1,5 +1,5 @@
 import AbstractView from '../../abstract-view.js';
-import getGameTemplate from './get-game-template.js';
+import getGameTemplate, {setAnswerForTime} from './get-game-template.js';
 import {
   Settings,
   AnswerValue,
@@ -18,28 +18,6 @@ export default class GameScreenView extends AbstractView {
     return getGameTemplate(this.state, this.data);
   }
 
-  bind() {
-    const backBtn = this.element.querySelector(`button.back`);
-    backBtn.addEventListener(`click`, this.onBackClick);
-
-    const gameContentForm = this.element.querySelector(`.game__content`);
-    gameContentForm.addEventListener(`click`, (evt) => {
-      const target = evt.target;
-      if (target.type === `radio`) {
-        let answer = (target.value === this.getRightAnswer()) ? AnswerValue.CORRECT : AnswerValue.WRONG;
-        if (answer === AnswerValue.CORRECT) {
-          if (this.time > (Settings.TIME_FOR_QUESTION - Settings.FAST_ANSWER_TIME)) {
-            answer = AnswerValue.FAST;
-          }
-          if (this.time < (Settings.TIME_FOR_QUESTION - Settings.SLOW_ANSWER_TIME)) {
-            answer = AnswerValue.SLOW;
-          }
-        }
-        this.onAnswer(answer);
-      }
-    });
-  }
-
   getRightAnswer() {
     return this.data[this.state.question].answers[0].answer;
   }
@@ -49,6 +27,21 @@ export default class GameScreenView extends AbstractView {
       const gameOption = this.element.querySelector(`.game__option`);
       gameOption.querySelector(`input[value=${this.getRightAnswer()}]`).parentElement.querySelector(`span`).style = DEBUG_STYLE;
     }
+  }
+
+  bind() {
+    const backBtn = this.element.querySelector(`button.back`);
+    backBtn.addEventListener(`click`, this.onBackClick);
+
+    const gameContentForm = this.element.querySelector(`.game__content`);
+    gameContentForm.addEventListener(`click`, (evt) => {
+      const target = evt.target;
+      if (target.type === `radio`) {
+        let answer = (target.value === this.getRightAnswer()) ? AnswerValue.CORRECT : AnswerValue.WRONG;
+        answer = setAnswerForTime(this.time, answer);
+        this.onAnswer(answer);
+      }
+    });
   }
 
   onTick() {
