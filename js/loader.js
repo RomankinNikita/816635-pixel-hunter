@@ -24,32 +24,35 @@ const loadImage = (url) => {
   });
 };
 
+async function getFetchData(fetchUrl) {
+  const response = await fetch(fetchUrl);
+  const checkedResponse = await checkStatus(response);
+  const serverData = await toJSON(checkedResponse);
+  return serverData;
+}
+
 let gameData;
 
 export const getGameData = () => gameData;
 
 export default class Loader {
-  static loadData() {
-    return fetch(`${SERVER_URL}/questions`).
-    then(checkStatus).
-    then(toJSON).
-    then((data) => {
-      gameData = adaptServerData(data);
-      return gameData;
-    }).
-    then((questions) => [].concat(...Object.values(questions).map((it) => it.answers))).
-    then((answers) => answers.map((it) => loadImage(it.content))).
-    then((imagePromises) => Promise.all(imagePromises));
+  static async loadData() {
+    gameData = adaptServerData(await getFetchData(`${SERVER_URL}/questions`));
+    const questions = [].concat(...Object.values(gameData).map((it) => it.answers));
+    const answers = questions.map((it) => loadImage(it.content));
+    const imagePromises = Promise.all(answers);
+
+    return imagePromises;
   }
 
-  static loadResults(name = DEFAULT_NAME) {
-    return fetch(`${SERVER_URL}/stats/${APP_ID}-${name}`).
-    then(checkStatus).
-    then(toJSON);
+  static async loadResults(name = DEFAULT_NAME) {
+    return await getFetchData(`${SERVER_URL}/stats/${APP_ID}-${name}`);
   }
 
-  static saveResults(state, name) {
-    const data = Object.assign({name}, state);
+  static async saveResults(state, name) {
+    const data = Object.assign({
+      name
+    }, state);
     const requestSettings = {
       body: JSON.stringify(data),
       headers: {
@@ -57,6 +60,7 @@ export default class Loader {
       },
       method: `POST`
     };
-    return fetch(`${SERVER_URL}/stats/${APP_ID}-${name}`, requestSettings).then(checkStatus);
+    const response = await fetch(`${SERVER_URL}/stats/${APP_ID}-${name}`, requestSettings).then(checkStatus);
+    return response;
   }
 }

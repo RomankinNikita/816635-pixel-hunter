@@ -65,4 +65,14 @@ export default class Application {
     }).
     catch((error) => showElement(new ModalError(error)));
   }
+
+  static async showStats(state, name) {
+    try {
+      await Loader.saveResults(state, name);
+      const data = await Loader.loadResults(name);
+      changeScreen(new StatsScreen(data));
+    } catch (error) {
+      showElement(new ModalError(error));
+    }
+  }
 }
