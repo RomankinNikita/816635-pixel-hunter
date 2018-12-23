@@ -1,4 +1,4 @@
-import Application from './application.js';
 import '@babel/polyfill';
+import Application from './application.js';
 
 Application.showIntro();

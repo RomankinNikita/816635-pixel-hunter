@@ -23,14 +23,21 @@ const onCrossfade = (intro) => {
 export default class Application {
 
   static showIntro() {
+    Application.load();
+  }
+
+  static async load() {
     const introScreen = new IntroScreen();
     const greetingScreen = new GreetingScreen();
     greetingScreen.crossfadeSwitch();
     showElement(introScreen);
-    Loader.loadData().
-    then(() => onCrossfade(introScreen)).
-    then(() => Application.showGreeting()).
-    catch((error) => showElement(new ModalError(error)));
+    try {
+      await Loader.loadData();
+      await onCrossfade(introScreen);
+      Application.showGreeting();
+    } catch (error) {
+      showElement(new ModalError(error));
+    }
   }
 
   static showGreeting() {
@@ -57,5 +64,15 @@ export default class Application {
       changeScreen(new StatsScreen(data));
     }).
     catch((error) => showElement(new ModalError(error)));
+  }
+
+  static async showStats(state, name) {
+    try {
+      await Loader.saveResults(state, name);
+      const data = await Loader.loadResults(name);
+      changeScreen(new StatsScreen(data));
+    } catch (error) {
+      showElement(new ModalError(error));
+    }
   }
 }
